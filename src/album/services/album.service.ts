@@ -19,6 +19,13 @@ export class AlbumService {
     return this.albumsRepository.find();
   }
 
+  async findAllOfArtistId(id: string) {
+    return this.albumsRepository.find({
+      where: { artistId: id },
+      relations: { artist: true },
+    });
+  }
+
   async findOne(id: string): Promise<Album> {
     return this.albumsRepository.findOneBy({ id });
   }

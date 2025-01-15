@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { AlbumService } from '../services/album.service';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -15,7 +15,10 @@ export class AlbumController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('artist') artist: string) {
+    if (artist) {
+      return this.albumService.findAllOfArtistId(artist);
+    }
     return this.albumService.findAll();
   }
 
