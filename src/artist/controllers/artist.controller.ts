@@ -1,34 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ArtistService } from '../services/artist.service';
 import { CreateArtistDto } from '../dto/create-artist.dto';
-import { UpdateArtistDto } from '../dto/update-artist.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storage } from 'src/storageConfig';
 
-@Controller('artist')
+@Controller('artists')
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Post()
-  create(@Body() createArtistDto: CreateArtistDto) {
-    return this.artistService.create(createArtistDto);
+  @UseInterceptors(FileInterceptor('image', storage))
+  create(@Body() createArtistDto: CreateArtistDto, @UploadedFile() image: Express.Multer.File) {
+    return this.artistService.create(createArtistDto, image);
   }
 
   @Get()
   findAll() {
     return this.artistService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.artistService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArtistDto: UpdateArtistDto) {
-    return this.artistService.update(+id, updateArtistDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.artistService.remove(+id);
   }
 }

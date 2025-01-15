@@ -10,7 +10,7 @@ export class CreateTrackDto {
   @Expose()
   @IsNotEmpty({ message: "Track's duration should not be empty" })
   @IsString({ message: "Track's duration should be a string" })
-  duraton: string;
+  duration!: string;
 
   @Expose()
   @IsNotEmpty({ message: "Track should have an album's id" })

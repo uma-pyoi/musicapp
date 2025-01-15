@@ -14,7 +14,7 @@ export class CreateAlbumDto {
   @Expose()
   @IsNotEmpty({ message: 'Album should have the release year' })
   @IsNumberString({}, { message: "Album's info should be a string" })
-  releaseYear?: string;
+  releaseYear: string;
 
   @Expose()
   @IsNotEmpty({ message: "Album should have an artist's id" })
