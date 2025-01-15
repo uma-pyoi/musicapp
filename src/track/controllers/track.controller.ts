@@ -12,9 +12,11 @@ export class TrackController {
   }
 
   @Get()
-  findAll(@Query('album') album: string) {
+  findAll(@Query('album') album?: string, @Query('artist') artist?: string) {
     if (album) {
       return this.trackService.findAllOfAlbum(album);
+    } else if (artist) {
+      return this.trackService.findAllOfArtist(artist);
     }
     return this.trackService.findAll();
   }
