@@ -9,11 +9,8 @@ export class Track {
   @Column()
   title: string;
 
-  @Column({ nullable: true })
-  image?: string;
-
-  @Column({ nullable: true })
-  info?: string;
+  @Column()
+  duration: string;
 
   @Column()
   albumId?: string;

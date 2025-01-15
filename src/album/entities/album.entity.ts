@@ -9,14 +9,14 @@ export class Album {
   @Column()
   title: string;
 
+  @Column()
+  releaseYear: string;
+
   @Column({ nullable: true })
   image?: string;
 
-  @Column({ nullable: true })
-  info?: string;
-
   @Column()
-  artistId?: string;
+  artistId: string;
 
   @ManyToOne(() => Artist)
   @JoinColumn({ name: 'artistId' })
