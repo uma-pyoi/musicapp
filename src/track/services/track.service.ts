@@ -18,4 +18,11 @@ export class TrackService {
   async findAll() {
     return this.tracksRepository.find();
   }
+
+  async findAllOfAlbum(id: string) {
+    return this.tracksRepository.find({
+      where: { albumId: id },
+      relations: { album: true },
+    });
+  }
 }

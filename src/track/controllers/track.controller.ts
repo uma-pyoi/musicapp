@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { TrackService } from '../services/track.service';
 import { CreateTrackDto } from '../dto/create-track.dto';
 
@@ -12,7 +12,10 @@ export class TrackController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('album') album: string) {
+    if (album) {
+      return this.trackService.findAllOfAlbum(album);
+    }
     return this.trackService.findAll();
   }
 }
