@@ -5,10 +5,10 @@ export class RegisterUserDto {
   @Expose()
   @IsString({ message: 'Username must be a string' })
   @IsNotEmpty({ message: 'Enter the username' })
-  username: string;
+  username!: string;
 
   @Expose()
   @IsString({ message: 'Password must be a string' })
   @IsNotEmpty({ message: 'Enter the password' })
-  password: string;
+  password!: string;
 }
