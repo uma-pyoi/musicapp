@@ -35,20 +35,12 @@ export class TrackService {
     const tracksOfAristArr = [];
 
     for (const track of tracksArr) {
-      console.log('track = ', track);
       const albumResults = await this.albumsRepository.find({
         where: { id: track.albumId },
       });
-      console.log('albumResults = ', albumResults);
       const albumOfTrack = albumResults[0];
 
-      console.log('albumOfTrack = ', albumOfTrack);
-
-      console.log('albumOfTrack.artistId = ', albumOfTrack.artistId);
-      console.log('id = ', id);
-
       if (`${albumOfTrack.artistId}` === id) {
-        console.log('albumOfTrack.artistId = ', albumOfTrack.artistId);
         tracksOfAristArr.push(track);
       }
     }

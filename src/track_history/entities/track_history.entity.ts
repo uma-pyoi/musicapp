@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Track } from 'src/track/entities/track.entity';
+import { User } from 'src/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class TrackHistory {
@@ -13,4 +15,12 @@ export class TrackHistory {
 
   @Column()
   datetime: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userId' })
+  user: User;
+
+  @ManyToOne(() => Track)
+  @JoinColumn({ name: 'trackId' })
+  track: User;
 }
