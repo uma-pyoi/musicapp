@@ -34,12 +34,10 @@ export class TrackService {
     const tracksArr = await this.findAll();
     const tracksOfAristArr = [];
 
-    // async function getTracksOfArtist() {
     for (const track of tracksArr) {
       console.log('track = ', track);
       const albumResults = await this.albumsRepository.find({
         where: { id: track.albumId },
-        // relations: { artist: true },
       });
       console.log('albumResults = ', albumResults);
       const albumOfTrack = albumResults[0];
@@ -56,30 +54,4 @@ export class TrackService {
     }
     return tracksOfAristArr;
   }
-  // getTracksOfArtist();
-  // console.log('tracksOfAristArr ', tracksOfAristArr);
 }
-
-// (await tracksArr).forEach(async (track) => {
-//   console.log('track = ', track);
-//   // const albumOfTrack = this.albumsRepository.findOneBy({ id: track.albumId });
-
-//   console.log('this.albumsRepository.find ', async () => {
-//     return this.albumsRepository.find();
-//   });
-
-//   const albumResults = await this.albumsRepository.find({
-//     where: { id: track.albumId },
-//     relations: { artist: true },
-//   });
-//   const albumOfTrack = albumResults[0];
-
-//   console.log('albumOfTrack = ', albumOfTrack);
-
-//   if (albumOfTrack.artistId === id) {
-//     console.log('albumOfTrack.artistId = ', albumOfTrack.artistId);
-//     return tracksOfAristArr.push(track);
-//   }
-// });
-// }
-// }

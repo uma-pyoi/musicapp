@@ -11,6 +11,8 @@ import { TrackModule } from './track/track.module';
 import { Artist } from './artist/entities/artist.entity';
 import { Album } from './album/entities/album.entity';
 import { Track } from './track/entities/track.entity';
+import { UserModule } from './user/user.module';
+import { TrackHistoryModule } from './track_history/track_history.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { Track } from './track/entities/track.entity';
     ArtistModule,
     AlbumModule,
     TrackModule,
+    UserModule,
+    TrackHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
