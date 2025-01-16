@@ -1,6 +1,7 @@
 import { Controller, Post, Body, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { RegisterUserDto } from '../dto/register-user.dto';
+import { SignInUserDto } from '../dto/sign-in-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -17,5 +18,10 @@ export class UserController {
         throw new InternalServerErrorException('Something went wrong. . .');
       }
     }
+  }
+
+  @Post('sessions')
+  signIn(@Body() signInUserDto: SignInUserDto) {
+    return this.userService.signIn(signInUserDto);
   }
 }

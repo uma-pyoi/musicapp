@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { RegisterUserDto } from '../dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
+import { SignInUserDto } from '../dto/sign-in-user.dto';
 
 @Injectable()
 export class UserService {
@@ -17,17 +18,29 @@ export class UserService {
     const salt = await bcrypt.genSalt(10);
 
     registerUserDto.password = await bcrypt.hash(registerUserDto.password, salt);
-    await this.usersRepository.save({
-      username: registerUserDto.username,
-      password: registerUserDto.password,
-    });
+    await this.usersRepository.save(registerUserDto);
 
     const user = await this.usersRepository.findOne({
       where: { username: registerUserDto.username },
     });
     user.generateToken();
-
     const userWithToken = await this.usersRepository.save(user);
     return _.omit(userWithToken, 'password');
+  }
+
+  async signIn(signInUserDto: SignInUserDto) {
+    const user = await this.usersRepository.findOne({ where: { username: signInUserDto.username } });
+    if (!user) {
+      throw new NotFoundException('Invalid username or password');
+    }
+    const isMatchPassword = await bcrypt.compare(signInUserDto.password, user.password);
+    if (!isMatchPassword) {
+      throw new NotFoundException('Invalid username or password');
+    }
+
+    user.generateToken();
+    const userWithToken = await this.usersRepository.save(user);
+
+    return _.omit(userWithToken, 'password', 'username');
   }
 }
