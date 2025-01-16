@@ -11,7 +11,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ unique: true })
+  @Column({ nullable: true })
   token?: string;
 
   generateToken() {

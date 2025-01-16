@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TrackHistoryController } from './track_history.controller';
-import { TrackHistoryService } from './track_history.service';
+import { TrackHistoryService } from '../services/track_history.service';
 
 describe('TrackHistoryController', () => {
   let controller: TrackHistoryController;
