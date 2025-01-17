@@ -10,5 +10,6 @@ import { Album } from 'src/album/entities/album.entity';
   imports: [ConfigModule.forRoot(), TypeOrmModule.forFeature([Track]), TypeOrmModule.forFeature([Album])],
   controllers: [TrackController],
   providers: [TrackService],
+  exports: [TypeOrmModule],
 })
 export class TrackModule {}
