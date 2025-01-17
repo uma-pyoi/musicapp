@@ -24,7 +24,6 @@ export class TrackHistoryService {
     if (!user) {
       throw new ForbiddenException();
     }
-    console.log(user);
 
     const track = await this.tracksRepository.findOne({ where: { id: createTrackHistoryDto.trackId } });
     if (!track) {
@@ -34,6 +33,6 @@ export class TrackHistoryService {
     const now = new Date();
     const formattedTime = now.toLocaleString();
 
-    this.tracksHistoryRepository.save({ ...createTrackHistoryDto, userId: user.id, datetime: formattedTime });
+    return this.tracksHistoryRepository.save({ ...createTrackHistoryDto, userId: user.id, datetime: formattedTime });
   }
 }

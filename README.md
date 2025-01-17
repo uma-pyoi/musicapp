@@ -1,99 +1,240 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Документация по Музыкальному приложению
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Установка и запуск
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Склонируем репозиторий с помощью:
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ pnpm install
+```
+git clone <ssh_of_the_repo>
 ```
 
-## Compile and run the project
+- Установим все зависимости:
 
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+```
+pnpm i
 ```
 
-## Run tests
+- Добавии файл .env, внутри пропишем следующее, заменяя значения на нужные в зависимости от вашего случая:
 
-```bash
-# unit tests
-$ pnpm run test
+```
+PORT=8000
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+DB_HOST='your_host'
+DB_PORT=3306
+DB_USER='your_user_name'
+DB_PASSWORD='your_password'
+DB_DATABASE='your_database'
 ```
 
-## Deployment
+- Запустим сервер:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g mau
-$ mau deploy
+```
+pnpm run dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Эндпоинты:
 
-## Resources
+### /artists
 
-Check out a few resources that may come in handy when working with NestJS:
+- `GET` - получает список всех исполнителей. Обычного GET запроса будет достаточно, ничего не нужно прописывать в теле или хэдере.
+- `POST` - создает нового артиста.
+  Пример запроса:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
+{
+  "name": "NAKISO",
+  "info": "japanese vocaloid producer",
+  "image": "file"
+}
+```
 
-## Support
+Из всех этих полей, только поле для имени `name` является обязательным.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+При этом вместо `"file"` подставляем файл типа `Express.Multer.File`, это можно сделать на клиенте с помощью типа `File` который отправляется внутри `FormDataю`.
 
-## Stay in touch
+Пример ответа:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```
+{
+  "name": "NAKISO",
+  "info": "japanese vocaloid producer",
+  "image": "generated_unique_name_of_your_image",
+  "id": 4
+}
+```
 
-## License
+Где вместо `"generated unique name of your image"` будет автоматически сгенерированная уникальная строка от вашей картинки, которую можно увидеть если зайти на `server_url/uploads/unique_image_string`.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### /albums
+
+- `GET` - получает список всех альбомов. Обычного GET запроса будет достаточно, ничего не нужно прописывать в теле или хэдере. Можно передать `query parameters`:
+
+  - `artist` - принимает ID исполнителя, и возвращает все альбомы от этого исполнителя. Пример:
+
+  ```
+  http://localhost:8000/albums?artist=1
+  ```
+
+  Тогда вам вернутся все альбомы от исполнителя с ID равным 1.
+
+- `POST` - создает новый альбом.
+  Пример запроса:
+
+```
+{
+  "title": "Shinee 4th MINI album",
+  "artistId": "3",
+  "releaseYear": "2012",
+  "image": "file",
+}
+```
+
+Из всех этих полей, поля `title`, `releaseYear`, `artistId` является обязательным.
+
+Пример ответа:
+
+```
+{
+  "title": "Shinee 4th MINI album",
+  "artistId": "3",
+  "releaseYear": "2012",
+  "image": "generated_unique_name_of_your_image",
+  "id": 5
+}
+```
+
+При этом принцип работы с картинкой такой же как и у POST запроса `/artists`.
+
+### /albums/:id
+
+- `GET` - получает информацию о конкретном альбоме, включая информацию о его исполнителе, в зависимости от переданного `ID` в URL. Обычного GET запроса будет достаточно, ничего не нужно прописывать в теле или хэдере.
+
+### /tracks
+
+- `GET` - получает список всех трэков. Обычного GET запроса будет достаточно, ничего не нужно прописывать в теле или хэдере. Можно передать `query parameters`:
+
+  - `album` - принимает ID альбома, и возвращает все трэки из этого альбома. Пример:
+
+  ```
+  http://localhost:8000/tracks?album=2
+  ```
+
+  Тогда вам вернутся все трэки из альбома с ID равным 2.
+
+  - `artist` - принимает ID исполнителя, и возвращает все альбомы от этого исполнителя. Пример:
+
+  ```
+    http://localhost:8000/albums?artist=1
+  ```
+
+  Тогда вам вернутся все трэки от исполнителя с ID равным 1.
+
+- `POST` - создает новый трэк.
+  Пример запроса:
+
+```
+{
+  "title": "Sorrows",
+  "duration": "3:23",
+  "albumId": "2"
+}
+```
+
+Все указанные поля являются обязательными
+
+Пример ответа:
+
+```
+{
+  "title": "Sorrows",
+  "duration": "3:23",
+  "albumId": "2",
+  "id": 7
+}
+```
+
+### /users
+
+- `POST` - создает/регистрирует нового юзера, возвращает новый токен для юзера.
+  Пример запроса:
+
+```
+{
+  "username": "TAEMIN",
+  "password": "qwertYYYY"
+}
+```
+
+Все указанные поля являются обязательными
+
+Пример ответа:
+
+```
+{
+  "id": 5,
+  "username": "TAEMIN",
+  "token": "34c48d75-1125-486f-9320-f1fbb555d928"
+}
+```
+
+### /users/sessions
+
+- `POST` - логирует(login, sign in) юзера, если данные верные - возвращает новый токен для юзера.
+  Пример запроса:
+
+```
+{
+  "username": "TAEMIN",
+  "password": "qwertYYYY"
+}
+```
+
+Все указанные поля являются обязательными
+
+Пример ответа:
+
+```
+{
+  "id": 5,
+  "token": "319f3ef7-93f5-4b9e-a6b8-c9339a8875a7"
+}
+```
+
+### /track_history
+
+- `POST` - создает новую трэк историю, которая содержит в себе записи о том какой юзер прослушал какой трек в какое время.
+  Пример запроса:
+
+Хэдер запроса:
+
+```
+{
+  "authorization": "319f3ef7-93f5-4b9e-a6b8-c9339a8875a7"
+}
+```
+
+В хэдере в `"authorization"` должен быть указан токен, который можно получить при регистрации или вхождении в аккаунт.
+
+Тело запроса:
+
+```
+{
+  "trackId": "1"
+}
+```
+
+Все указанные поля являются обязательными
+
+Пример ответа:
+
+```
+{
+  "trackId": "1",
+  "userId": 5,
+  "datetime": "1/17/2025, 6:48:04 AM",
+  "id": 6
+}
+```
+
+В случае неправильного токена в хэдере, прийдет ошибка `403 Forbidden`.
+Если trackId будет указан неверно, то есть если трэка с таким ID не существует, прийдет ошибка `400 Bad Request`.

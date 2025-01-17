@@ -27,6 +27,9 @@ export class AlbumService {
   }
 
   async findOne(id: string): Promise<Album> {
-    return this.albumsRepository.findOneBy({ id });
+    return this.albumsRepository.findOne({
+      where: { artistId: id },
+      relations: { artist: true },
+    });
   }
 }
