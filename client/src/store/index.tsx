@@ -1,10 +1,10 @@
-import { productsReducer } from '@/features/productsSlice';
+import { artistsReducer } from '@/features/artistsSlice';
 import { userReducer } from '@/features/userSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
 	reducer: {
-		products: productsReducer,
+		artists: artistsReducer,
 		user: userReducer,
 	},
 });
