@@ -4,6 +4,7 @@ import { CreateArtistDto } from '../dto/create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/storageConfig';
 
+
 @Controller('artists')
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
