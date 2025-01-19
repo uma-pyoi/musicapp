@@ -13,6 +13,9 @@ export class Track {
   duration: string;
 
   @Column()
+  trackNumber: number;
+
+  @Column()
   albumId?: string;
 
   @ManyToOne(() => Album)
