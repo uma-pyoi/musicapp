@@ -1,6 +1,6 @@
 export interface IArtist {
 	id: string;
-	image: string;
+	image?: string;
 	name: string;
-	info: string;
+	info?: string;
 }

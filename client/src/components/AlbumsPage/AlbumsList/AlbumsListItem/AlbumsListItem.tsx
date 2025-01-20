@@ -1,0 +1,42 @@
+import { StyledLink } from '@/components/ArtistsPage/ArtistsList/ArtistsListItem/ArtistsListItem';
+import { IAlbum } from '@/interfaces/IAlbum';
+import { Box, Card, CardContent, CardHeader, CardMedia, Grid2, Typography } from '@mui/material';
+
+interface Props {
+	album: IAlbum;
+}
+
+export function AlbumsListItem({ album }: Props) {
+	const { title, releaseYear, id, image } = album;
+
+	let cardImage = 'http://localhost:3000/image_not_available.png';
+	if (image) {
+		cardImage = `${process.env.SERVER_URL}/uploads/${image}`;
+	}
+
+	return (
+		<Grid2 component='div' m={2}>
+			<Card>
+				<Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
+					<Grid2 container sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
+						<CardMedia component='img' sx={{ width: 151 }} image={cardImage} />
+						<Grid2 container direction={'column'}>
+							<CardHeader
+								sx={{ wordBreak: 'break-all' }}
+								title={title}
+								component={StyledLink}
+								href={`/albums/${id}`}
+							/>
+							<CardContent>
+								<Typography variant='body2'>{releaseYear}</Typography>
+								<Typography variant='body2' sx={{ color: 'text.secondary' }}>
+									{releaseYear}
+								</Typography>
+							</CardContent>
+						</Grid2>
+					</Grid2>
+				</Box>
+			</Card>
+		</Grid2>
+	);
+}

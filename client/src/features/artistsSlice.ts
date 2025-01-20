@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 interface State {
 	artists?: IArtist[];
+	currArtist?: IArtist;
 	error?: Error;
 	loading: boolean;
 }
@@ -20,7 +21,11 @@ export const fetchArtists = createAsyncThunk('fetch/artists', async () => {
 const artistsSlice = createSlice({
 	name: 'artists',
 	initialState,
-	reducers: {},
+	reducers: {
+		setCurrArtist(state, action) {
+			state.currArtist = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchArtists.pending, (state) => {
@@ -38,4 +43,5 @@ const artistsSlice = createSlice({
 	},
 });
 
+export const { setCurrArtist } = artistsSlice.actions;
 export const artistsReducer = artistsSlice.reducer;
