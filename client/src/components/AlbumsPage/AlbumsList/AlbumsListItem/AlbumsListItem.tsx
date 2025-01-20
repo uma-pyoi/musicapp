@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function AlbumsListItem({ album }: Props) {
-	const { title, releaseYear, id, image } = album;
+	const { title, releaseYear, id, image, tracksAmount } = album;
 
 	let cardImage = 'http://localhost:3000/image_not_available.png';
 	if (image) {
@@ -28,9 +28,10 @@ export function AlbumsListItem({ album }: Props) {
 								href={`/albums/${id}`}
 							/>
 							<CardContent>
-								<Typography variant='body2'>{releaseYear}</Typography>
+								<Typography variant='h6'>{releaseYear}</Typography>
+
 								<Typography variant='body2' sx={{ color: 'text.secondary' }}>
-									{releaseYear}
+									{tracksAmount > 0 ? <>{tracksAmount} tracks</> : <>No tracks</>}
 								</Typography>
 							</CardContent>
 						</Grid2>

@@ -4,4 +4,5 @@ export interface IAlbum {
 	releaseYear: string;
 	image?: string;
 	artistId: string;
+	tracksAmount: number;
 }

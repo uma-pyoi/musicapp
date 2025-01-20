@@ -1,4 +1,3 @@
-import { setCurrArtist } from '@/features/artistsSlice';
 import { IArtist } from '@/interfaces/IArtist';
 import { Box, Card, CardHeader, CardMedia, Grid2, styled } from '@mui/material';
 import Link from 'next/link';
@@ -33,7 +32,6 @@ export function ArtistsListItem({ artist }: Props) {
 								title={name}
 								component={StyledLink}
 								href={`/artists/${id}`}
-								onClick={setCurrArtist(artist)}
 							/>
 						</Grid2>
 					</Grid2>

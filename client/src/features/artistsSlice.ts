@@ -18,14 +18,15 @@ export const fetchArtists = createAsyncThunk('fetch/artists', async () => {
 	return data;
 });
 
+export const fetchArtist = createAsyncThunk('fetch/artist', async (payload: string) => {
+	const { data } = await axiosApiClient.get<IArtist>(`/artists/${payload}`);
+	return data;
+});
+
 const artistsSlice = createSlice({
 	name: 'artists',
 	initialState,
-	reducers: {
-		setCurrArtist(state, action) {
-			state.currArtist = action.payload;
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchArtists.pending, (state) => {
@@ -39,9 +40,21 @@ const artistsSlice = createSlice({
 			.addCase(fetchArtists.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
+			})
+
+			.addCase(fetchArtist.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchArtist.fulfilled, (state, action) => {
+				state.currArtist = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchArtist.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
 			});
 	},
 });
 
-export const { setCurrArtist } = artistsSlice.actions;
 export const artistsReducer = artistsSlice.reducer;

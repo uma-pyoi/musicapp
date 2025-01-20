@@ -18,4 +18,10 @@ export class ArtistService {
   async findAll() {
     return this.artistsRepository.find();
   }
+
+  async findOne(id: string): Promise<Artist> {
+    return this.artistsRepository.findOne({
+      where: { id },
+    });
+  }
 }

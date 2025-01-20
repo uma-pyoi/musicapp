@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Body, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { ArtistService } from '../services/artist.service';
 import { CreateArtistDto } from '../dto/create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/storageConfig';
-
 
 @Controller('artists')
 export class ArtistController {
@@ -18,5 +17,15 @@ export class ArtistController {
   @Get()
   findAll() {
     return this.artistService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const artist = await this.artistService.findOne(id);
+    if (!artist) {
+      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    }
+
+    return artist;
   }
 }

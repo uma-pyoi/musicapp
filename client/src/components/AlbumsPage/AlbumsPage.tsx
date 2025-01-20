@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Grid2, Typography } from '@mui/material';
 import { fetchAlbumsOfArtist } from '@/features/albumsSlice';
 import { AlbumsList } from './AlbumsList/AlbumsList';
+import { fetchArtist } from '@/features/artistsSlice';
 
 interface Props {
 	artistId: string;
@@ -17,30 +18,31 @@ export function AlbumsPage({ artistId }: Props) {
 
 	useEffect(() => {
 		console.log('albums useEffect');
-		const fetchAlbumsFunc = async () => {
+		const fetchDataFunc = async () => {
+			await dispatch(fetchArtist(artistId));
 			await dispatch(fetchAlbumsOfArtist(artistId));
 		};
-		// if (!albums) {
-		fetchAlbumsFunc();
-		// }
+		fetchDataFunc();
 
-		// console.log(albums);
+		console.log('albums useEffect');
 	}, [dispatch, artistId]);
 
-	// if (albums && albums[0]) {
-	// 	return <AlbumsList albumsArr={albums} />;
-	// }
+	if (currArtist && albums) {
+		return (
+			<>
+				<Grid2 container>
+					<Typography variant='h5'>{currArtist.name}</Typography>
+				</Grid2>
+				<AlbumsList albumsArr={albums} />
+			</>
+		);
+	}
 
 	return (
-		<>
-			<Grid2 container>
-				<Typography variant='h5'>{currArtist?.name}</Typography>
-			</Grid2>
-			<Grid2 container justifyContent={'center'}>
-				<Typography variant='body2' sx={{ color: 'text.secondary', wordBreak: 'break-all' }}>
-					No Albums of {} were found...
-				</Typography>
-			</Grid2>
-		</>
+		<Grid2 container justifyContent={'center'}>
+			<Typography variant='body2' sx={{ color: 'text.secondary', wordBreak: 'break-all' }}>
+				No Albums were found...
+			</Typography>
+		</Grid2>
 	);
 }
