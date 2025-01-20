@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 interface State {
 	albums?: IAlbum[];
+	currAlbum?: IAlbum;
 	error?: Error;
 	loading: boolean;
 }
@@ -24,6 +25,11 @@ export const fetchAlbumsOfArtist = createAsyncThunk(
 	},
 );
 
+export const fetchAlbum = createAsyncThunk('fetch/album', async (payload: string) => {
+	const { data } = await axiosApiClient.get<IAlbum>(`/albums/${payload}`);
+	return data;
+});
+
 const albumsSlice = createSlice({
 	name: 'albums',
 	initialState,
@@ -39,6 +45,19 @@ const albumsSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(fetchAlbumsOfArtist.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(fetchAlbum.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchAlbum.fulfilled, (state, action) => {
+				state.currAlbum = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchAlbum.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});

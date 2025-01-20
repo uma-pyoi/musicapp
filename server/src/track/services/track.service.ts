@@ -21,13 +21,20 @@ export class TrackService {
   }
 
   async findAll() {
-    return this.tracksRepository.find();
+    return this.tracksRepository.find({
+      order: {
+        trackNumber: 'ASC',
+      },
+    });
   }
 
   async findAllOfAlbum(id: string) {
     return this.tracksRepository.find({
       where: { albumId: id },
       relations: { album: true },
+      order: {
+        trackNumber: 'ASC',
+      },
     });
   }
 
