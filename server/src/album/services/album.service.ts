@@ -25,7 +25,6 @@ export class AlbumService {
         releaseYear: 'ASC',
       },
     });
-    console.log('albumsArr = ', albumsArr);
 
     const newAlbumsArr = [];
 
@@ -33,12 +32,8 @@ export class AlbumService {
       const tracksArr = await this.tracksRepository.find({
         where: { albumId: album.id },
       });
-      console.log('tracksArr = ', tracksArr);
       newAlbumsArr.push({ ...album, tracksAmount: tracksArr.length });
     }
-
-    console.log('newAlbumsArr = ', newAlbumsArr);
-    console.log('meow');
 
     return newAlbumsArr;
   }
@@ -58,7 +53,6 @@ export class AlbumService {
       const tracksArr = await this.tracksRepository.find({
         where: { albumId: album.id },
       });
-      console.log('tracksArr = ', tracksArr);
       newAlbumsArr.push({ ...album, tracksAmount: tracksArr.length });
     }
 

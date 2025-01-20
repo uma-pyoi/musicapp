@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsNumberString, IsString } from 'class-validator';
+import { isUniqueTrackNumber } from 'src/validators/isUniqueTrackNumber';
 
 export class CreateTrackDto {
   @Expose()
@@ -16,4 +17,10 @@ export class CreateTrackDto {
   @IsNotEmpty({ message: "Track should have an album's id" })
   @IsNumberString({}, { message: "Enter track's album's id correctly" })
   albumId!: string;
+
+  @Expose()
+  @IsNotEmpty({ message: 'Track should have a track number' })
+  @IsNumber({}, { message: 'Track number should be a number' })
+  @isUniqueTrackNumber({ albumId: 'albumId', column: 'trackNumber' })
+  trackNumber: number;
 }

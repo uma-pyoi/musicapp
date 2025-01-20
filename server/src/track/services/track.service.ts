@@ -16,8 +16,7 @@ export class TrackService {
   ) {}
 
   async create(createTrackDto: CreateTrackDto) {
-    const existingTracks = await this.findAllOfAlbum(createTrackDto.albumId);
-    return await this.tracksRepository.save({ ...createTrackDto, trackNumber: existingTracks.length + 1 });
+    return await this.tracksRepository.save(createTrackDto);
   }
 
   async findAll() {

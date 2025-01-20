@@ -5,11 +5,12 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Track } from './entities/track.entity';
 import { Album } from 'src/album/entities/album.entity';
+import { IsUniqueTrackNumberConstraint } from 'src/validators/isUniqueTrackNumber';
 
 @Module({
   imports: [ConfigModule.forRoot(), TypeOrmModule.forFeature([Track]), TypeOrmModule.forFeature([Album])],
   controllers: [TrackController],
-  providers: [TrackService],
+  providers: [TrackService, IsUniqueTrackNumberConstraint],
   exports: [TypeOrmModule],
 })
 export class TrackModule {}

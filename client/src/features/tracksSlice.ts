@@ -20,8 +20,6 @@ export const fetchTracksOfAlbum = createAsyncThunk(
 				album: payload,
 			},
 		});
-
-		console.log('tracksSlice, data = ', data);
 		return data;
 	},
 );

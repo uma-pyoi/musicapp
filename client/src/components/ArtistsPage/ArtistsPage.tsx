@@ -17,8 +17,6 @@ export function ArtistsPage() {
 		if (!artists) {
 			fetchArtistsFunc();
 		}
-
-		console.log(artists);
 	}, [dispatch, artists]);
 
 	if (artists) {

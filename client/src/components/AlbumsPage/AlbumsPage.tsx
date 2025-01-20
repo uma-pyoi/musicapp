@@ -17,14 +17,11 @@ export function AlbumsPage({ artistId }: Props) {
 	const { currArtist } = useAppSelector((state) => state.artists);
 
 	useEffect(() => {
-		console.log('albums useEffect');
 		const fetchDataFunc = async () => {
 			await dispatch(fetchArtist(artistId));
 			await dispatch(fetchAlbumsOfArtist(artistId));
 		};
 		fetchDataFunc();
-
-		console.log('albums useEffect');
 	}, [dispatch, artistId]);
 
 	if (currArtist && albums && albums[0]) {

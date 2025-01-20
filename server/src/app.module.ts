@@ -15,6 +15,7 @@ import { UserModule } from './user/user.module';
 import { TrackHistoryModule } from './track_history/track_history.module';
 import { User } from './user/entities/user.entity';
 import { TrackHistory } from './track_history/entities/track_history.entity';
+import { IsUniqueTrackNumberConstraint } from './validators/isUniqueTrackNumber';
 
 @Module({
   imports: [
@@ -39,6 +40,6 @@ import { TrackHistory } from './track_history/entities/track_history.entity';
     TrackHistoryModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, IsUniqueTrackNumberConstraint],
 })
 export class AppModule {}
