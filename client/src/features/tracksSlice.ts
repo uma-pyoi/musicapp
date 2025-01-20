@@ -15,11 +15,13 @@ const initialState: State = {
 export const fetchTracksOfAlbum = createAsyncThunk(
 	'fetch/tracks_of_album',
 	async (payload: string) => {
-		const { data } = await axiosApiClient.get<ITrack[]>('/tracks', {
+		const { data } = await axiosApiClient.get<ITrack[]>(`/tracks`, {
 			params: {
 				album: payload,
 			},
 		});
+
+		console.log('tracksSlice, data = ', data);
 		return data;
 	},
 );

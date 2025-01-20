@@ -10,7 +10,6 @@ export default function Albums({ params }: { params: Usable<IParams> }) {
 	const { id } = use<IParams>(params);
 	return (
 		<>
-			<div>{id} is id</div>
 			<AlbumsPage artistId={id} />
 		</>
 	);

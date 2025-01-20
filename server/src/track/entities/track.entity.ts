@@ -16,7 +16,7 @@ export class Track {
   trackNumber: number;
 
   @Column()
-  albumId?: string;
+  albumId: string;
 
   @ManyToOne(() => Album)
   @JoinColumn({ name: 'albumId' })

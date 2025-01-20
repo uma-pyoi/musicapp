@@ -27,7 +27,7 @@ export function AlbumsPage({ artistId }: Props) {
 		console.log('albums useEffect');
 	}, [dispatch, artistId]);
 
-	if (currArtist && albums) {
+	if (currArtist && albums && albums[0]) {
 		return (
 			<>
 				<Grid2 container>
