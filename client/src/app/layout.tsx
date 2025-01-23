@@ -3,6 +3,7 @@
 import { Provider } from 'react-redux';
 import store from '@/store';
 import { Container, CssBaseline } from '@mui/material';
+import { AppToolbar } from '@/components/UI/AppToolbar';
 
 export default function RootLayout({
 	children,
@@ -15,7 +16,7 @@ export default function RootLayout({
 				<body>
 					<CssBaseline />
 					<header>
-
+						<AppToolbar />
 					</header>
 					<main>
 						<Container maxWidth='xl' sx={{ mt: 10 }}>
