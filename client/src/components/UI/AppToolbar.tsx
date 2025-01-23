@@ -2,6 +2,10 @@ import { AppBar, Button, styled, Toolbar, Typography } from '@mui/material';
 import { AuthModal } from '../Authorization/AuthModal';
 import { StyledLink } from '../ArtistsPage/ArtistsList/ArtistsListItem/ArtistsListItem';
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { clearLoginError, clearRegisterError } from '@/features/userSlice';
+import { UserMenu } from './UserMenu';
+import { GuestMenu } from './GuestMenu';
 
 export const StyledButton = styled(Button)(() => ({
 	color: 'white',
@@ -10,29 +14,14 @@ export const StyledButton = styled(Button)(() => ({
 }));
 
 export function AppToolbar() {
-	// const [guestItems] =
+	const { user } = useAppSelector((state) => state.user);
+	const dispatch = useAppDispatch();
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
-	// const [modalType, setModalType] = useState<'register' | 'login' | null>(null);
-
-	// const openModal = () => {
-	// 	if (modalType === 'register') {
-	// 		setIsRegisterOpen(true);
-	// 	} else {
-	// 		setIsLoginOpen(true);
-	// 	}
-	// };
-
-	// const closeModal = () => {
-	// 	if (modalType === 'register') {
-	// 		setIsRegisterOpen(false);
-	// 	} else {
-	// 		setIsLoginOpen(false);
-	// 	}
-	// };
 
 	const closeRegister = () => {
 		setIsRegisterOpen(false);
+		dispatch(clearRegisterError());
 	};
 
 	const openRegister = () => {
@@ -41,6 +30,7 @@ export function AppToolbar() {
 
 	const closeLogin = () => {
 		setIsLoginOpen(false);
+		dispatch(clearLoginError());
 	};
 
 	const openLogin = () => {
@@ -49,7 +39,6 @@ export function AppToolbar() {
 
 	return (
 		<>
-			{/* {modalType === 'register' ? ( */}
 			<AuthModal type='register' isOpen={isRegisterOpen} closeModal={closeRegister} />
 			<AuthModal type='login' isOpen={isLoginOpen} closeModal={closeLogin} />
 			<AppBar position='fixed'>
@@ -57,7 +46,7 @@ export function AppToolbar() {
 					<Typography variant='h6' component={StyledLink} href='/'>
 						Musical App
 					</Typography>
-					<Button
+					{/* <Button
 						sx={{ color: 'white', textTransform: 'none', bgcolor: 'none' }}
 						onClick={openRegister}
 					>
@@ -69,7 +58,8 @@ export function AppToolbar() {
 						onClick={openLogin}
 					>
 						Login
-					</Button>
+					</Button> */}
+					{user ? <UserMenu /> : <GuestMenu openLogin={openLogin} openRegister={openRegister} />}
 				</Toolbar>
 			</AppBar>
 		</>

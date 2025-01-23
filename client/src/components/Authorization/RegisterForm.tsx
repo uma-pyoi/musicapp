@@ -1,16 +1,16 @@
-import { IUser } from '@/interfaces/IUser';
-import { useAppDispatch } from '@/store/hooks';
-import { Box, Button, Grid2, TextField } from '@mui/material';
+import { registerUser, UserRequest } from '@/features/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { Alert, Box, Button, Grid2, TextField } from '@mui/material';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 interface Props {
-	btnText: string;
+	closeModal: () => void;
 }
 
-export function RegisterForm({ btnText }: Props) {
+export function RegisterForm({ closeModal }: Props) {
+	const { registerError } = useAppSelector((state) => state.user);
 	const dispatch = useAppDispatch();
-	// const router = useRouter();
-	const [user, setUser] = useState<Omit<IUser, 'id'>>({
+	const [user, setUser] = useState<UserRequest>({
 		username: '',
 		password: '',
 	});
@@ -18,58 +18,59 @@ export function RegisterForm({ btnText }: Props) {
 	const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const formData: FormData = new FormData();
-		Object.entries(user).forEach(([key, value]) => {
-			if (typeof value === 'object') {
-				formData.append(key, value);
-			} else {
-				formData.append(key, `${value}`);
+		for (const property in user) {
+			if (user[property as keyof UserRequest].trim().length <= 0) {
+				return;
 			}
-		});
-
-		// dispatch(createProduct(formData));
-		// router.push('/');
-		console.log('formData !!!!!!!!!!!!!!!!! ', formData);
+		}
+		dispatch(registerUser(user));
+    closeModal()
+		console.log('user !!!!!!!!!!!!!!!!! ', user);
 	};
 
 	const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setUser((prevState) => {
-			return { ...prevState, [name]: value };
+			return { ...prevState, [name]: value.trim() };
 		});
 	};
 
 	return (
-		<Box component={'form'} autoComplete='off' onSubmit={submitFormHandler} paddingY={2}>
-			<Grid2 container direction={'column'} spacing={2}>
-				<Grid2>
-					<TextField
-						fullWidth
-						variant='outlined'
-						id='username'
-						label='Username'
-						value={user.username}
-						name='username'
-						onChange={inputChangeHandler}
-					/>
+		<>
+			{registerError ? <Alert severity='error'>{registerError}</Alert> : null}
+			<Box component={'form'} autoComplete='off' onSubmit={submitFormHandler} paddingY={2}>
+				<Grid2 container direction={'column'} alignItems={'center'} spacing={2}>
+					<Grid2>
+						<TextField
+							fullWidth
+							variant='outlined'
+							id='username'
+							label='Username'
+							value={user.username}
+							name='username'
+							required
+							onChange={inputChangeHandler}
+						/>
+					</Grid2>
+					<Grid2>
+						<TextField
+							fullWidth
+							variant='outlined'
+							id='password'
+							label='Password'
+							value={user.password}
+							name='password'
+							required
+							onChange={inputChangeHandler}
+						/>
+					</Grid2>
+					<Grid2>
+						<Button type='submit' variant='contained'>
+							Register
+						</Button>
+					</Grid2>
 				</Grid2>
-				<Grid2>
-					<TextField
-						fullWidth
-						variant='outlined'
-						id='password'
-						label='Password'
-						value={user.password}
-						name='password'
-						onChange={inputChangeHandler}
-					/>
-				</Grid2>
-				<Grid2>
-					<Button type='submit' variant='contained'>
-						{btnText}
-					</Button>
-				</Grid2>
-			</Grid2>
-		</Box>
+			</Box>
+		</>
 	);
 }

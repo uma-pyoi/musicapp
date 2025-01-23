@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Grid2 } from '@mui/material';
 import { RegisterForm } from './RegisterForm';
+import { LoginForm } from './LoginForm';
 
 const style = {
 	position: 'absolute',
@@ -34,11 +35,7 @@ export function AuthModal({ isOpen, closeModal, type }: Props) {
 				<Typography id='modal-modal-title' variant='h6' component='h2' textAlign={'center'}>
 					{type === 'register' ? 'Registration' : 'Log in'}
 				</Typography>
-				{/* <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-					Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-				</Typography> */}
-				{/* <Button>{type === 'register' ? 'Register' : 'Log in'}</Button> */}
-				{type === 'register' ? <RegisterForm btnText='register' /> : null}
+				{type === 'register' ? <RegisterForm closeModal={closeModal} /> : <LoginForm closeModal={closeModal}/>}
 			</Grid2>
 		</Modal>
 	);
