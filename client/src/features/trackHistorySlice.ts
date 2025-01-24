@@ -1,7 +1,6 @@
 import { axiosApiClient } from '@/helpers/axiosApiClient';
 import { IResponseError } from '@/interfaces/IResponseError';
 import { ITrackHistory } from '@/interfaces/ITrackHistory';
-import { useAppSelector } from '@/store/hooks';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
@@ -17,17 +16,37 @@ const initialState: State = {
 	sentTrackHistory: false,
 };
 
+interface IGetState {
+	user: {
+		user?: { token: string };
+	};
+}
+
 export const createTrackHistory = createAsyncThunk(
 	'create/track_history',
-	async (payload: string, { rejectWithValue }) => {
-		const { user } = useAppSelector((state) => state.user);
-		if (user?.token) {
+	async (payload: { trackId: string }, { rejectWithValue, getState }) => {
+		console.log('createTrackHistory');
+		// const { user } = useAppSelector((state) => state.user);
+		const state = getState() as IGetState;
+		const token = state.user.user?.token;
+
+		if (!token) {
+			return rejectWithValue('Please log in first');
+		}
+
+		console.log(token, ' token');
+
+		console.log(typeof payload.trackId, ' typeof payload.trackId');
+		console.log(payload.trackId, '  payload.trackId');
+
+		if (token) {
 			try {
-				const { data } = await axiosApiClient.post(`/track_history`, payload, {
+				const { data } = await axiosApiClient.post(`/track-history`, payload, {
 					headers: {
-						Authorization: user.token,
+						Authorization: token,
 					},
 				});
+				console.log('track history data ', data);
 				return data;
 			} catch (err) {
 				if (err instanceof AxiosError) {
