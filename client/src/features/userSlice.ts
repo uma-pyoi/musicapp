@@ -1,4 +1,5 @@
 import { axiosApiClient } from '@/helpers/axiosApiClient';
+import { IResponseError } from '@/interfaces/IResponseError';
 import { IUser } from '@/interfaces/IUser';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
@@ -15,12 +16,6 @@ export interface UserRequest {
 	password: string;
 }
 
-interface UserResponseError {
-	message: string;
-	error: string;
-	statusCode: number;
-}
-
 export const registerUser = createAsyncThunk<IUser, UserRequest>(
 	'user/register',
 	async (userData, { rejectWithValue }) => {
@@ -31,7 +26,7 @@ export const registerUser = createAsyncThunk<IUser, UserRequest>(
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				if (err.response?.data) {
-					const errorResponse: UserResponseError = err.response.data;
+					const errorResponse: IResponseError = err.response.data;
 					return rejectWithValue(errorResponse.message);
 				}
 				return rejectWithValue('An error occured');
@@ -51,7 +46,7 @@ export const loginUser = createAsyncThunk<IUser, UserRequest>(
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				if (err.response?.data) {
-					const errorResponse: UserResponseError = err.response.data;
+					const errorResponse: IResponseError = err.response.data;
 					return rejectWithValue(errorResponse.message);
 				}
 				return rejectWithValue('An error occured');

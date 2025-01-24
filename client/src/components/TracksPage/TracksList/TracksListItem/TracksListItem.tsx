@@ -8,6 +8,8 @@ interface Props {
 export function TracksListItem({ track }: Props) {
 	const { title, trackNumber, duration } = track;
 
+	const titleClick = () => {};
+
 	return (
 		<Grid2 component='div' m={2}>
 			<Card>
@@ -19,6 +21,7 @@ export function TracksListItem({ track }: Props) {
 								title={title}
 								component={Typography}
 								variant='h6'
+								onClick={}
 							/>
 							<CardContent>
 								<Typography variant='h6'>{trackNumber}</Typography>
