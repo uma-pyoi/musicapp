@@ -17,7 +17,7 @@ export function TracksPage({ albumId }: Props) {
 	const { tracks } = useAppSelector((state) => state.tracks);
 	const { currAlbum } = useAppSelector((state) => state.albums);
 	const { currArtist } = useAppSelector((state) => state.artists);
-	const { error, sentTrackHistory } = useAppSelector((state) => state.track_history);
+	const { loginError, sentTrackHistory } = useAppSelector((state) => state.track_history);
 
 	const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 	const [showErrorAlert, setShowErrorAlert] = useState(false);
@@ -38,11 +38,11 @@ export function TracksPage({ albumId }: Props) {
 	}, [sentTrackHistory]);
 
 	useEffect(() => {
-		if (error) {
+		if (loginError) {
 			setShowErrorAlert(true);
 			setTimeout(() => setShowErrorAlert(false), 5000);
 		}
-	}, [error]);
+	}, [loginError]);
 
 	if (currArtist && currAlbum && tracks && tracks[0]) {
 		return (
@@ -53,7 +53,7 @@ export function TracksPage({ albumId }: Props) {
 					</Alert>
 				) : null}
 
-				{showErrorAlert ? <Alert severity='error'>{error}</Alert> : null}
+				{showErrorAlert ? <Alert severity='error'>{loginError}</Alert> : null}
 
 				<Grid2 container>
 					<Typography variant='h5'>{currArtist.name}</Typography>

@@ -9,5 +9,6 @@ import { Artist } from './entities/artist.entity';
   imports: [ConfigModule.forRoot(), TypeOrmModule.forFeature([Artist])],
   controllers: [ArtistController],
   providers: [ArtistService],
+  exports: [TypeOrmModule],
 })
 export class ArtistModule {}

@@ -22,5 +22,5 @@ export class TrackHistory {
 
   @ManyToOne(() => Track)
   @JoinColumn({ name: 'trackId' })
-  track: User;
+  track: Track;
 }

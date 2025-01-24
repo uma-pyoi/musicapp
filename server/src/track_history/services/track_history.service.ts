@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { TrackHistory } from '../entities/track_history.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Track } from 'src/track/entities/track.entity';
+import { Artist } from 'src/artist/entities/artist.entity';
 
 @Injectable()
 export class TrackHistoryService {
@@ -17,6 +18,9 @@ export class TrackHistoryService {
 
     @InjectRepository(Track)
     private tracksRepository: Repository<Track>,
+
+    @InjectRepository(Artist)
+    private artistsRepository: Repository<Artist>,
   ) {}
 
   async create(headers: { authorization: string }, createTrackHistoryDto: CreateTrackHistoryDto) {
@@ -34,5 +38,34 @@ export class TrackHistoryService {
     const formattedTime = now.toLocaleString();
 
     return this.tracksHistoryRepository.save({ ...createTrackHistoryDto, userId: user.id, datetime: formattedTime });
+  }
+
+  async findAllOfUserToken(headers: { authorization: string }) {
+    const user = await this.usersRepository.findOne({ where: { token: headers['authorization'] } });
+    if (!user) {
+      throw new ForbiddenException();
+    }
+
+    const trackHistoriesArr = await this.tracksHistoryRepository.find({
+      where: { userId: user.id },
+      relations: { track: { album: true } },
+    });
+    const finalTrackHistoriesArr = [];
+
+    for (const trackHistory of trackHistoriesArr) {
+      console.log('trackHistory.track.album = ', trackHistory.track.album);
+      const artist = await this.artistsRepository.findOne({
+        where: { id: trackHistory.track.album.artistId },
+      });
+
+      const finalTrackHistory = {
+        ...trackHistory,
+        artist,
+      };
+
+      finalTrackHistoriesArr.push(finalTrackHistory);
+    }
+
+    return finalTrackHistoriesArr;
   }
 }

@@ -17,9 +17,8 @@ export class TrackHistoryController {
   @Get()
   findAll(@Headers() headers: { authorization: string }) {
     if (headers['authorization']) {
-      // return this.trackHistoryService.findAllOfUser(album);
-      ('heh');
+      return this.trackHistoryService.findAllOfUserToken(headers);
     }
-    return 'wow';
+    return 'You need to be authorized';
   }
 }
