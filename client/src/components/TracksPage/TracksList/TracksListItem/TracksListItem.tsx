@@ -1,6 +1,6 @@
 import { createTrackHistory } from '@/features/trackHistorySlice';
 import { ITrack } from '@/interfaces/ITrack';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import { Box, Card, CardContent, CardHeader, Grid2, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
@@ -12,18 +12,11 @@ export function TracksListItem({ track }: Props) {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const { title, trackNumber, duration, id } = track;
-	// const { error } = useAppSelector((state) => state.track_history);
 
 	const titleClick = async () => {
-		console.log('click, id = ', id);
-		// await dispatch(createTrackHistory({ trackId: `${id}` }));
-		// if (error === 'Please log in first') {
-		// 	router.push('/login');
-		// }
-
 		const trackHistoryCreation = await dispatch(createTrackHistory({ trackId: `${id}` }));
 
-		if (trackHistoryCreation.payload === 'Please log in first') {
+		if (trackHistoryCreation.payload === 'Please log in first. You will be redirected now.') {
 			router.push('/login');
 		}
 	};

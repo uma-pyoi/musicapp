@@ -5,7 +5,7 @@ import { Grid2 } from '@mui/material';
 import { RegisterForm } from './RegisterForm';
 import { LoginForm } from './LoginForm';
 
-const style = {
+export const authFormStyle = {
 	position: 'absolute',
 	top: '50%',
 	left: '50%',
@@ -31,7 +31,7 @@ export function AuthModal({ isOpen, closeModal, type }: Props) {
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
 		>
-			<Grid2 sx={style}>
+			<Grid2 sx={authFormStyle}>
 				<Typography id='modal-modal-title' variant='h6' component='h2' textAlign={'center'}>
 					{type === 'register' ? 'Registration' : 'Log in'}
 				</Typography>

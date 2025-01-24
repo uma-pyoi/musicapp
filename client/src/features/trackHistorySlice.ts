@@ -26,12 +26,11 @@ export const createTrackHistory = createAsyncThunk(
 	'create/track_history',
 	async (payload: { trackId: string }, { rejectWithValue, getState }) => {
 		console.log('createTrackHistory');
-		// const { user } = useAppSelector((state) => state.user);
 		const state = getState() as IGetState;
 		const token = state.user.user?.token;
 
 		if (!token) {
-			return rejectWithValue('Please log in first');
+			return rejectWithValue('Please log in first. You will be redirected now.');
 		}
 
 		console.log(token, ' token');
