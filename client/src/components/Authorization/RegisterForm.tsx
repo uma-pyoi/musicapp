@@ -24,8 +24,7 @@ export function RegisterForm({ closeModal }: Props) {
 			}
 		}
 		dispatch(registerUser(user));
-    closeModal()
-		console.log('user !!!!!!!!!!!!!!!!! ', user);
+		closeModal();
 	};
 
 	const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

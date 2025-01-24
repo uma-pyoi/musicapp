@@ -49,11 +49,13 @@ export class TrackHistoryService {
     const trackHistoriesArr = await this.tracksHistoryRepository.find({
       where: { userId: user.id },
       relations: { track: { album: true } },
+      order: {
+        datetime: 'DESC',
+      },
     });
     const finalTrackHistoriesArr = [];
 
     for (const trackHistory of trackHistoriesArr) {
-      console.log('trackHistory.track.album = ', trackHistory.track.album);
       const artist = await this.artistsRepository.findOne({
         where: { id: trackHistory.track.album.artistId },
       });

@@ -21,7 +21,6 @@ export const registerUser = createAsyncThunk<IUser, UserRequest>(
 	async (userData, { rejectWithValue }) => {
 		try {
 			const { data } = await axiosApiClient.post<IUser>('/users', userData);
-			console.log('register ', data);
 			return data;
 		} catch (err) {
 			if (err instanceof AxiosError) {
@@ -41,7 +40,6 @@ export const loginUser = createAsyncThunk<IUser, UserRequest>(
 	async (userData, { rejectWithValue }) => {
 		try {
 			const { data } = await axiosApiClient.post<IUser>('/users/sessions', userData);
-			console.log('login ', data);
 			return data;
 		} catch (err) {
 			if (err instanceof AxiosError) {

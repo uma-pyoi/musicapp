@@ -4,8 +4,8 @@ import { StyledLink } from '../ArtistsPage/ArtistsList/ArtistsListItem/ArtistsLi
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearLoginError, clearRegisterError } from '@/features/userSlice';
-import { UserMenu } from './UserMenu';
-import { GuestMenu } from './GuestMenu';
+import { UserMenu } from './Menu/UserMenu';
+import { GuestMenu } from './Menu/GuestMenu';
 
 export const StyledButton = styled(Button)(() => ({
 	color: 'white',

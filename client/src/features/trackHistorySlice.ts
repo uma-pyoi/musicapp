@@ -26,18 +26,12 @@ interface IGetState {
 export const createTrackHistory = createAsyncThunk(
 	'create/track_history',
 	async (payload: { trackId: string }, { rejectWithValue, getState }) => {
-		console.log('createTrackHistory');
 		const state = getState() as IGetState;
 		const token = state.user.user?.token;
 
 		if (!token) {
 			return rejectWithValue('Please log in first. You will be redirected now.');
 		}
-
-		console.log(token, ' token');
-
-		console.log(typeof payload.trackId, ' typeof payload.trackId');
-		console.log(payload.trackId, '  payload.trackId');
 
 		if (token) {
 			try {
@@ -46,7 +40,6 @@ export const createTrackHistory = createAsyncThunk(
 						Authorization: token,
 					},
 				});
-				console.log('track history data ', data);
 				return data;
 			} catch (err) {
 				if (err instanceof AxiosError) {
@@ -67,7 +60,6 @@ export const fetchTrackHistories = createAsyncThunk(
 	async (__, { getState, rejectWithValue }) => {
 		const state = getState() as IGetState;
 		const token = state.user.user?.token;
-
 		try {
 			const { data } = await axiosApiClient.get<ITrackHistory[]>('/track-history', {
 				headers: {
@@ -120,8 +112,8 @@ const trackHistorySlice = createSlice({
 				state.loading = true;
 				state.fetchError = undefined;
 			})
-			.addCase(fetchTrackHistories.fulfilled, (state) => {
-				state.sentTrackHistory = true;
+			.addCase(fetchTrackHistories.fulfilled, (state, action) => {
+				state.trackHistories = action.payload;
 				state.loading = false;
 			})
 			.addCase(fetchTrackHistories.rejected, (state, action) => {

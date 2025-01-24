@@ -25,7 +25,6 @@ export function LoginForm({ closeModal }: Props) {
 		}
 		dispatch(loginUser(user));
 		closeModal();
-		console.log('user !!!!!!!!!!!!!!!!! ', user);
 	};
 
 	const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
