@@ -1,13 +1,19 @@
-import { Toolbar, Typography } from '@mui/material';
+import { styled, Toolbar, Typography } from '@mui/material';
 import { StyledLink } from '../../ArtistsPage/ArtistsList/ArtistsListItem/ArtistsListItem';
 import { useAppDispatch } from '@/store/hooks';
+import { logoutUser } from '@/features/userSlice';
+
+export const CursorPointer = styled(Typography)(() => ({
+	'&:hover': {
+		cursor: 'pointer',
+	},
+}));
 
 export function UserMenu() {
 	const dispatch = useAppDispatch();
 
 	const logoutHandler = () => {
-		// dispatch(logoutUser());
-		console.log('logout');
+		dispatch(logoutUser());
 	};
 
 	return (
@@ -15,7 +21,9 @@ export function UserMenu() {
 			<Typography component={StyledLink} href='/track-history'>
 				Track History
 			</Typography>
-			<Typography onClick={logoutHandler}>Logout</Typography>
+			<Typography component={CursorPointer} onClick={logoutHandler}>
+				Logout
+			</Typography>
 		</Toolbar>
 	);
 }

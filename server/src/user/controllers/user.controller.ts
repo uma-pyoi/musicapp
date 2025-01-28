@@ -35,10 +35,7 @@ export class UserController {
       throw new ForbiddenException();
     }
 
-    // await user.generateToken();
-    // console.log('server token BEFORE = ', user.token);
     this.userService.logout(user);
-    // console.log('server token AFter = ', user.token);
     return;
   }
 }

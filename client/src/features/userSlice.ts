@@ -54,6 +54,28 @@ export const loginUser = createAsyncThunk<IUser, UserRequest>(
 	},
 );
 
+export const logoutUser = createAsyncThunk(
+	'user/logout',
+	async (_, { rejectWithValue, getState }) => {
+		try {
+			const token = (getState() as { user: UserState })?.user?.user?.token;
+			const { data } = await axiosApiClient.delete<IUser>('users/logout', {
+				headers: { Authorization: token },
+			});
+			return data;
+		} catch (err) {
+			if (err instanceof AxiosError) {
+				if (err.response?.data) {
+					const errorResponse: IResponseError = err.response.data;
+					return rejectWithValue(errorResponse.message);
+				}
+				return rejectWithValue('An error occured');
+			}
+			throw err;
+		}
+	},
+);
+
 const initialState: UserState = {
 	loading: false,
 };
@@ -103,6 +125,10 @@ const userSlice = createSlice({
 					state.loginError = 'Something went wrong';
 				}
 				state.loading = false;
+			})
+
+			.addCase(logoutUser.fulfilled, () => {
+				return initialState;
 			});
 	},
 });
