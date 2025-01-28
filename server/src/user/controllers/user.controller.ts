@@ -1,4 +1,4 @@
-import { Controller, Post, Body, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Post, Body, ForbiddenException, InternalServerErrorException, Delete, Headers, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { RegisterUserDto } from '../dto/register-user.dto';
 import { SignInUserDto } from '../dto/sign-in-user.dto';
@@ -23,5 +23,22 @@ export class UserController {
   @Post('sessions')
   signIn(@Body() signInUserDto: SignInUserDto) {
     return this.userService.signIn(signInUserDto);
+  }
+
+  @Delete('logout')
+  async logout(@Headers() headers: { authorization: string }) {
+    if (!headers['authorization']) {
+      throw new UnauthorizedException();
+    }
+    const user = await this.userService.getUserByToken(headers['authorization']);
+    if (!user) {
+      throw new ForbiddenException();
+    }
+
+    // await user.generateToken();
+    // console.log('server token BEFORE = ', user.token);
+    this.userService.logout(user);
+    // console.log('server token AFter = ', user.token);
+    return;
   }
 }

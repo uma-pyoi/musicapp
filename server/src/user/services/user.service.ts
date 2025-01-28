@@ -43,4 +43,13 @@ export class UserService {
 
     return _.omit(userWithToken, 'password', 'username');
   }
+
+  async logout(user: User) {
+    user.generateToken();
+    return await this.usersRepository.save(user);
+  }
+
+  getUserByToken(token: string) {
+    return this.usersRepository.findOne({ where: { token } });
+  }
 }
