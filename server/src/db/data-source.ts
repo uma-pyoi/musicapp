@@ -3,7 +3,7 @@ import { SeederOptions } from 'typeorm-extension';
 import 'dotenv/config';
 
 export const dataSourceOptions: DataSourceOptions & SeederOptions = {
-  seeds: ['dist/db/seeds/**/*.js'],
+  seeds: ['dist/db/seeds/main-seeder/main.seeder.js'],
   factories: ['dist/db/factories/**/*.js'],
   type: 'mysql',
   host: process.env.DB_HOST,
@@ -13,7 +13,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   database: process.env.DB_DATABASE,
   synchronize: true,
   logging: true,
-  entities: ['dist/user/entities/**/*.js'],
+  entities: ['dist/*/entities/**/*.js'],
 };
 
 export const appDataSource = new DataSource(dataSourceOptions);

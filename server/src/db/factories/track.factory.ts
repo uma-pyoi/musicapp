@@ -1,10 +1,12 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import { Track } from 'src/track/entities/track.entity';
+import { appDataSource } from '../data-source';
+import { Album } from 'src/album/entities/album.entity';
 
 let trackNumberCounter = 1;
 
-export const TrackFactory = setSeederFactory(Track, () => {
+export const TrackFactory = setSeederFactory(Track, async () => {
   const track = new Track();
 
   track.title = faker.music.songName();
@@ -17,7 +19,11 @@ export const TrackFactory = setSeederFactory(Track, () => {
     duration = `${durationMinutes}:${durationSeconds}`;
   }
   track.duration = duration;
-  track.albumId = '1';
+
+  const albumsRepository = appDataSource.getRepository(Album);
+  const randomAlbum: Album = await albumsRepository.find()[0];
+  track.albumId = `${randomAlbum.id}`;
+
   track.trackNumber = trackNumberCounter++;
 
   return track;
