@@ -5,16 +5,17 @@ import { appDataSource } from '../data-source';
 import { Track } from 'src/track/entities/track.entity';
 import { User } from 'src/user/entities/user.entity';
 
-export const TrackHistoryFactory = setSeederFactory(TrackHistory, async () => {
+export interface TrackHistoryMeta {
+  randomTrackId: string;
+  randomUserId: string;
+}
+
+export const TrackHistoryFactory = setSeederFactory(TrackHistory, (__, meta: TrackHistoryMeta) => {
   const trackHistory = new TrackHistory();
 
-  const tracksRepository = appDataSource.getRepository(Track);
-  const randomTrack: Track = await tracksRepository.find()[0];
-  trackHistory.trackId = `${randomTrack.id}`;
+  trackHistory.trackId = meta.randomTrackId;
 
-  const usersRepository = appDataSource.getRepository(User);
-  const randomUser: User = await usersRepository.find()[0];
-  trackHistory.userId = `${randomUser.id}`;
+  trackHistory.userId = meta.randomUserId;
 
   trackHistory.datetime = faker.date.recent().toLocaleString();
 

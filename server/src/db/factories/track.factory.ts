@@ -6,7 +6,7 @@ import { Album } from 'src/album/entities/album.entity';
 
 let trackNumberCounter = 1;
 
-export const TrackFactory = setSeederFactory(Track, async () => {
+export const TrackFactory = setSeederFactory(Track, (__, meta: string) => {
   const track = new Track();
 
   track.title = faker.music.songName();
@@ -20,9 +20,7 @@ export const TrackFactory = setSeederFactory(Track, async () => {
   }
   track.duration = duration;
 
-  const albumsRepository = appDataSource.getRepository(Album);
-  const randomAlbum: Album = await albumsRepository.find()[0];
-  track.albumId = `${randomAlbum.id}`;
+  track.albumId = meta;
 
   track.trackNumber = trackNumberCounter++;
 
