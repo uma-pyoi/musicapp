@@ -6,22 +6,19 @@ import { Grid2, Typography } from '@mui/material';
 import { fetchTrackHistories } from '@/features/trackHistorySlice';
 import { TrackHistoriesList } from './TrackHitoriesList/TrackHistoriesList';
 import { useRouter } from 'next/navigation';
+import { withAuth } from '@/hoc/withAuth';
 
-export function TrackHistoriesPage() {
+function TrackHistoriesPage() {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const { trackHistories } = useAppSelector((state) => state.track_history);
 	const { user } = useAppSelector((state) => state.user);
 
 	useEffect(() => {
-		if (!user?.token) {
-			router.push('/login');
-		} else {
-			const fetchDataFunc = async () => {
-				await dispatch(fetchTrackHistories());
-			};
-			fetchDataFunc();
-		}
+		const fetchDataFunc = async () => {
+			await dispatch(fetchTrackHistories());
+		};
+		fetchDataFunc();
 	}, [dispatch, router, user?.token]);
 
 	if (trackHistories && trackHistories[0]) {
@@ -43,3 +40,5 @@ export function TrackHistoriesPage() {
 		</Grid2>
 	);
 }
+
+export default withAuth(TrackHistoriesPage);
