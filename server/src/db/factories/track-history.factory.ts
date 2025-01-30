@@ -1,9 +1,6 @@
 import { setSeederFactory } from 'typeorm-extension';
 import { TrackHistory } from 'src/track_history/entities/track_history.entity';
 import { faker } from '@faker-js/faker';
-import { appDataSource } from '../data-source';
-import { Track } from 'src/track/entities/track.entity';
-import { User } from 'src/user/entities/user.entity';
 
 export interface TrackHistoryMeta {
   randomTrackId: string;

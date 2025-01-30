@@ -258,15 +258,24 @@ Authorization: "your_token"
 
 Есть возможность создать шаблонные данные на сервере. Например для проверки работы клиента.
 
-### users
-
-Генерация юзеров, происходит по комманде `seed`:
+Генерация данных, происходит по комманде `seed`:
 
 ```
 pnpm run seed
 ```
 
-Эта команда генерирует 10 новых юзеров, она заполняет юзер такими данными:
+Эта команда генерирует 2 новых поля для каждой из 5 сущностей (Artist, Album, Track, User, TrackHistory).
+Seeding происходит в следующей последовательности:
+
+- User
+- Artist
+- Album
+- Track
+- TrackHistory
+
+### User
+
+она заполняет User такими данными:
 
 ```
 user.password = 'password';
@@ -279,4 +288,90 @@ user.username = faker.internet.username();
 ```
 password: 'password',
 username: 'Ethan_Ankunding99'
+```
+
+### Artist
+
+она заполняет Artist такими данными:
+
+```
+artist.name = faker.music.artist();
+artist.info = faker.music.genre();
+```
+
+То есть name будет именем артиста сгенерированное с помощью faker (string), а info будет сгенерированным жанром (string).
+Пример одного такого артиста:
+
+```
+name: 'Loud Luxury',
+info: 'Hip Hop'
+```
+
+### Album
+
+она заполняет Album такими данными:
+
+```
+album.title = faker.music.album();
+album.releaseYear = faker.number.int({ min: 1000, max: 2025 }).toString();
+album.artistId = meta;
+```
+
+То есть title будет названием альбома сгенерированное с помощью faker(string), а releaseYear будет сгенерированным числом между 1000 и 2025(string). meta это будет id первого найденного артиста в репозитории (при этом это не значит что id = 1), (string).
+Пример одного такого альбома:
+
+```
+title: 'Ao Vivo No Ibirapuera',
+releaseYear: '1297',
+artistId: '43'
+```
+
+### Track
+
+она заполняет Track такими данными:
+
+```
+  const durationMinutes = faker.number.int({ min: 1, max: 12 }).toString();
+  const durationSeconds = faker.number.int({ min: 1, max: 59 }).toString();
+  let duration;
+  if (durationSeconds.length < 2) {
+    duration = `${durationMinutes}:0${durationSeconds}`;
+  } else {
+    duration = `${durationMinutes}:${durationSeconds}`;
+  }
+
+  track.title = faker.music.songName();
+  track.duration = duration;
+  track.albumId = meta;
+  track.trackNumber = trackNumberCounter++;
+```
+
+То есть title будет названием трэка сгенерированное с помощью faker(string), duration будет сгенерированным числом которое далее будет отформатировано что бы выглядеть как минуты:секунды (string), albumId meta это будет id первого найденного альбома в репозитории (при этом это не значит что id = 1), (string), trackNumber будет числом которое увеличивается в зависимости от counter (number).
+Пример одного такого трэка:
+
+```
+title: 'Lady Marmalade (Voulez-Vous Coucher Aver Moi Ce Soir?)',
+duration: '11:17',
+albumId: '19',
+trackNumber: 1
+```
+
+### TrackHistory
+
+она заполняет TrackHistory такими данными:
+
+```
+
+  trackHistory.trackId = meta.randomTrackId;
+  trackHistory.userId = meta.randomUserId;
+  trackHistory.datetime = faker.date.recent().toLocaleString();
+```
+
+То есть datetime будет временем-датой TrackHistory сгенерированное с помощью faker(string), trackId и userId будут передаваться, они оба типа string и будут браться первые в репозитории (что не значит что у них будет id = 1)
+Пример одного такого TrackHistory:
+
+```
+trackId: '21',
+userId: '75',
+datetime: '1/30/2025, 5:37:47 PM'
 ```
