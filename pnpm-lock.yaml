@@ -14,8 +14,16 @@ importers:
       ultra-runner:
         specifier: ^3.10.5
         version: 3.10.5
+    devDependencies:
+      '@faker-js/faker':
+        specifier: ^9.4.0
+        version: 9.4.0
 
 packages:
+
+  '@faker-js/faker@9.4.0':
+    resolution: {integrity: sha512-85+k0AxaZSTowL0gXp8zYWDIrWclTbRPg/pm/V0dSFZ6W6D4lhcG3uuZl4zLsEKfEvs69xDbLN2cHQudwp95JA==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -282,6 +290,8 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  '@faker-js/faker@9.4.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
