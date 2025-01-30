@@ -1,7 +1,7 @@
 import { AppBar, Button, styled, Toolbar, Typography } from '@mui/material';
 import { AuthModal } from '../Authorization/AuthModal';
 import { StyledLink } from '../ArtistsPage/ArtistsList/ArtistsListItem/ArtistsListItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearLoginError, clearRegisterError } from '@/features/userSlice';
 import { UserMenu } from './Menu/UserMenu';
@@ -18,6 +18,13 @@ export function AppToolbar() {
 	const dispatch = useAppDispatch();
 	const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
+	if (!isMounted) return null;
 
 	const closeRegister = () => {
 		setIsRegisterOpen(false);
@@ -46,19 +53,6 @@ export function AppToolbar() {
 					<Typography variant='h6' component={StyledLink} href='/'>
 						Musical App
 					</Typography>
-					{/* <Button
-						sx={{ color: 'white', textTransform: 'none', bgcolor: 'none' }}
-						onClick={openRegister}
-					>
-						Register
-					</Button>
-
-					<Button
-						sx={{ color: 'white', textTransform: 'none', bgcolor: 'none' }}
-						onClick={openLogin}
-					>
-						Login
-					</Button> */}
 					{user ? <UserMenu /> : <GuestMenu openLogin={openLogin} openRegister={openRegister} />}
 				</Toolbar>
 			</AppBar>
