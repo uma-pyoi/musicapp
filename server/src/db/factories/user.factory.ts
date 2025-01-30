@@ -6,6 +6,7 @@ export const UserFactory = setSeederFactory(User, () => {
   const user = new User();
   user.password = 'password';
   user.username = faker.internet.username();
+  user.token = crypto.randomUUID();
 
   return user;
 });
