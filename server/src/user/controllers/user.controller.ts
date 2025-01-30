@@ -30,12 +30,7 @@ export class UserController {
     if (!headers['authorization']) {
       throw new UnauthorizedException();
     }
-    const user = await this.userService.getUserByToken(headers['authorization']);
-    if (!user) {
-      throw new ForbiddenException();
-    }
 
-    this.userService.logout(user);
-    return;
+    return this.userService.logout(headers.authorization);
   }
 }

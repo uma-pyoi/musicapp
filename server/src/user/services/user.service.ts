@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -44,9 +44,14 @@ export class UserService {
     return _.omit(userWithToken, 'password', 'username');
   }
 
-  async logout(user: User) {
-    user.generateToken();
-    return await this.usersRepository.save(user);
+  async logout(token: string) {
+    const user = await this.getUserByToken(token);
+    if (!user) {
+      throw new ForbiddenException();
+    }
+    await user.generateToken();
+    await this.usersRepository.save(user);
+    return;
   }
 
   getUserByToken(token: string) {
