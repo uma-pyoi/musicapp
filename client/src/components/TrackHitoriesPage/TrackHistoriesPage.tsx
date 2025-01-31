@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid2, Typography } from '@mui/material';
 import { fetchTrackHistories } from '@/features/trackHistorySlice';
 import { TrackHistoriesList } from './TrackHitoriesList/TrackHistoriesList';
@@ -13,15 +13,17 @@ function TrackHistoriesPage() {
 	const router = useRouter();
 	const { trackHistories } = useAppSelector((state) => state.track_history);
 	const { user } = useAppSelector((state) => state.user);
+	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
 		const fetchDataFunc = async () => {
 			await dispatch(fetchTrackHistories());
+			setLoaded(true);
 		};
 		fetchDataFunc();
 	}, [dispatch, router, user?.token]);
 
-	if (trackHistories && trackHistories[0]) {
+	if (trackHistories && trackHistories[0] && loaded) {
 		return (
 			<>
 				<Grid2 container>
