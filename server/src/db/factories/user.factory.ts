@@ -2,6 +2,7 @@ import { User } from '../../user/entities/user.entity';
 import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/role/enums/role.enum';
 
 export const UserFactory = setSeederFactory(User, async () => {
   const user = new User();
@@ -12,6 +13,7 @@ export const UserFactory = setSeederFactory(User, async () => {
 
   user.username = faker.internet.username();
   user.token = crypto.randomUUID();
+  user.role = Role.User;
 
   return user;
 });

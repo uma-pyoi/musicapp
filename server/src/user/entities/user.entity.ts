@@ -1,3 +1,4 @@
+import { Role } from 'src/role/enums/role.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -13,6 +14,9 @@ export class User {
 
   @Column({ nullable: true })
   token?: string;
+
+  @Column({ default: [Role.User] })
+  role: Role;
 
   generateToken() {
     this.token = crypto.randomUUID();
