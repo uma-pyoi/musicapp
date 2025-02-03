@@ -21,4 +21,7 @@ export class Album {
   @ManyToOne(() => Artist)
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
+
+  @Column({ default: false })
+  published: boolean;
 }

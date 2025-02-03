@@ -13,4 +13,7 @@ export class Artist {
 
   @Column({ nullable: true })
   info?: string;
+
+  @Column({ default: false })
+  published: boolean;
 }
