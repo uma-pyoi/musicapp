@@ -24,8 +24,6 @@ export class ArtistController {
   }
 
   @Get(':id')
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
   async findOne(@Param('id') id: string) {
     const artist = await this.artistService.findOne(id);
     if (!artist) {

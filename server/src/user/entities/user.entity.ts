@@ -15,7 +15,7 @@ export class User {
   @Column({ nullable: true })
   token?: string;
 
-  @Column({ default: [Role.User] })
+  @Column({ type: 'enum', enum: Role, default: Role.User })
   role: Role;
 
   generateToken() {

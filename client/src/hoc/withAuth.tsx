@@ -6,13 +6,13 @@ import React, { useEffect } from 'react';
 
 export const withAuth = (WrappedComponent: React.ElementType) => {
 	return function WithAuth(props: object) {
-		const { user } = useAppSelector((state) => state.user);
+		const { user, loading } = useAppSelector((state) => state.user);
 
 		useEffect(() => {
-			if (!user?.token) {
+			if (!user && !loading) {
 				redirect('/login');
 			}
-		});
+		}, [user, loading]);
 
 		return <WrappedComponent {...props} />;
 	};
