@@ -23,6 +23,11 @@ export const fetchArtist = createAsyncThunk('fetch/artist', async (payload: stri
 	return data;
 });
 
+export const createArtist = createAsyncThunk('create/artist', async (payload: FormData) => {
+	const { data } = await axiosApiClient.post('/artists', payload);
+	return data;
+});
+
 const artistsSlice = createSlice({
 	name: 'artists',
 	initialState,
