@@ -3,10 +3,6 @@ import { ArtistService } from '../services/artist.service';
 import { CreateArtistDto } from '../dto/create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/storageConfig';
-import { Roles } from 'src/decorators/roles.decorators';
-import { Role } from 'src/role/enums/role.enum';
-import { AuthGuard } from 'src/user/auth_guard/auth.guard';
-import { RolesGuard } from 'src/role/roles.guard';
 
 @Controller('artists')
 export class ArtistController {
