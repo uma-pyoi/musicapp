@@ -7,6 +7,7 @@ export const AlbumFactory = setSeederFactory(Album, (__, meta: string) => {
 
   album.title = faker.music.album();
   album.releaseYear = faker.number.int({ min: 1000, max: 2025 }).toString();
+  album.image = `album-default.jpeg`;
 
   album.artistId = meta;
 

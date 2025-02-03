@@ -12,10 +12,11 @@ export default class AlbumSeeder implements Seeder {
       return;
     }
 
-    const artist = artists[0];
     const albumsFactory = factoryManager.get(Album);
-    albumsFactory.setMeta(artist.id);
 
-    await albumsFactory.saveMany(2);
+    for (const artist of artists) {
+      albumsFactory.setMeta(artist.id);
+      await albumsFactory.saveMany(2);
+    }
   }
 }
