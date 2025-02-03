@@ -2,9 +2,12 @@ import { setSeederFactory } from 'typeorm-extension';
 import { faker } from '@faker-js/faker';
 import { Track } from 'src/track/entities/track.entity';
 
-let trackNumberCounter = 1;
+export interface TrackFactoryMeta {
+  trackNumberCounter: number;
+  albumId: string;
+}
 
-export const TrackFactory = setSeederFactory(Track, (__, meta: string) => {
+export const TrackFactory = setSeederFactory(Track, (__, meta: TrackFactoryMeta) => {
   const track = new Track();
 
   track.title = faker.music.songName();
@@ -18,9 +21,9 @@ export const TrackFactory = setSeederFactory(Track, (__, meta: string) => {
   }
   track.duration = duration;
 
-  track.albumId = meta;
+  track.albumId = meta.albumId;
 
-  track.trackNumber = trackNumberCounter++;
+  track.trackNumber = meta.trackNumberCounter++;
 
   return track;
 });
