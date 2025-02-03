@@ -1,3 +1,4 @@
+import { FinalTrackState } from '@/components/Forms/TrackForm/TrackForm';
 import { axiosApiClient } from '@/helpers/axiosApiClient';
 import { ITrack } from '@/interfaces/ITrack';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -24,6 +25,11 @@ export const fetchTracksOfAlbum = createAsyncThunk(
 	},
 );
 
+export const createTrack = createAsyncThunk('create/track', async (payload: FinalTrackState) => {
+	const { data } = await axiosApiClient.post('/tracks', payload);
+	return data;
+});
+
 const tracksSlice = createSlice({
 	name: 'artists',
 	initialState,
@@ -39,6 +45,18 @@ const tracksSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(fetchTracksOfAlbum.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(createTrack.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(createTrack.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(createTrack.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});

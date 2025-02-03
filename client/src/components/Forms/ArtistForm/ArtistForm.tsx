@@ -30,7 +30,6 @@ export function ArtistForm() {
 				formData.append(key, value);
 			} else {
 				if (`${value}`.trim().length === 0) {
-					console.log('THE VALUE IS EMPTY!');
 					return;
 				}
 				formData.append(key, `${value}`);
@@ -45,8 +44,6 @@ export function ArtistForm() {
 			}
 		}
 		handleCreation();
-
-		console.log('formData !!!!!!!!!!!!!!!!! ', formData);
 	};
 
 	const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

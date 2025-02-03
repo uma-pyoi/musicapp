@@ -51,7 +51,6 @@ export function AlbumForm() {
 				formData.append(key, value);
 			} else {
 				if (`${value}`.trim().length === 0) {
-					console.log('THE VALUE IS EMPTY!');
 					return;
 				}
 				formData.append(key, `${value}`);
@@ -66,7 +65,6 @@ export function AlbumForm() {
 			}
 		}
 		handleCreation();
-		console.log('formData !!!!!!!!!!!!!!!!! ', formData);
 	};
 
 	const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +76,6 @@ export function AlbumForm() {
 
 	const selectChangeHandler = (e: SelectChangeEvent<string>) => {
 		const { name, value } = e.target;
-		console.log('select chnage handler = ', name, value);
 		setAlbum((prevState) => {
 			return { ...prevState, [name]: value };
 		});
@@ -136,7 +133,11 @@ export function AlbumForm() {
 							value={album.artistId}
 							label='Artist'
 							onChange={selectChangeHandler}
+							displayEmpty
 						>
+							<MenuItem value='' disabled>
+								Choose an artist
+							</MenuItem>
 							{artists
 								? artists.map((artist) => (
 										<MenuItem value={artist.id} key={artist.id}>

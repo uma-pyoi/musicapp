@@ -8,7 +8,6 @@ export class AuthMiddleware implements NestMiddleware {
     if (!token) {
       throw new Error();
     }
-    console.log('Request...');
     next();
   }
 }
