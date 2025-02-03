@@ -58,6 +58,18 @@ const artistsSlice = createSlice({
 			.addCase(fetchArtist.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
+			})
+
+			.addCase(createArtist.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(createArtist.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(createArtist.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
 			});
 	},
 });

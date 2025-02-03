@@ -30,6 +30,11 @@ export const fetchAlbum = createAsyncThunk('fetch/album', async (payload: string
 	return data;
 });
 
+export const createAlbum = createAsyncThunk('create/album', async (payload: FormData) => {
+	const { data } = await axiosApiClient.post('/albums', payload);
+	return data;
+});
+
 const albumsSlice = createSlice({
 	name: 'albums',
 	initialState,
@@ -58,6 +63,18 @@ const albumsSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(fetchAlbum.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(createAlbum.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(createAlbum.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(createAlbum.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});
