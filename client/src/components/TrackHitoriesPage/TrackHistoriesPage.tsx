@@ -7,6 +7,7 @@ import { fetchTrackHistories } from '@/features/trackHistorySlice';
 import { TrackHistoriesList } from './TrackHitoriesList/TrackHistoriesList';
 import { useRouter } from 'next/navigation';
 import { withAuth } from '@/hoc/withAuth';
+import { Role } from '@/interfaces/IUser';
 
 function TrackHistoriesPage() {
 	const dispatch = useAppDispatch();
@@ -43,4 +44,4 @@ function TrackHistoriesPage() {
 	);
 }
 
-export default withAuth(TrackHistoriesPage);
+export default withAuth(TrackHistoriesPage, Role.User);
