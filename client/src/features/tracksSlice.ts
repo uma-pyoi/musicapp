@@ -30,8 +30,18 @@ export const createTrack = createAsyncThunk('create/track', async (payload: Fina
 	return data;
 });
 
+export const fetchTracks = createAsyncThunk('fetch/tracks', async () => {
+	const { data } = await axiosApiClient.get<ITrack[]>(`/tracks`);
+	return data;
+});
+
+export const deleteTrack = createAsyncThunk('delete/track', async (payload: string) => {
+	const { data } = await axiosApiClient.delete(`/tracks/${payload}`);
+	return data;
+});
+
 const tracksSlice = createSlice({
-	name: 'artists',
+	name: 'tracks',
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
@@ -57,6 +67,31 @@ const tracksSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(createTrack.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(fetchTracks.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchTracks.fulfilled, (state, action) => {
+				state.tracks = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchTracks.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(deleteTrack.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(deleteTrack.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(deleteTrack.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});

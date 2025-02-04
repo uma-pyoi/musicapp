@@ -51,12 +51,16 @@ export function ArtistsListItem({ artist, isUnpublished }: Props) {
 					<Grid2 container sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
 						<CardMedia component='img' sx={{ width: 151 }} image={cardImage} />
 						<Grid2 container direction={'column'}>
-							<CardHeader
-								sx={{ wordBreak: 'break-all' }}
-								title={name}
-								component={StyledLink}
-								href={`/artists/${id}`}
-							/>
+							{isUnpublished ? (
+								<CardHeader sx={{ wordBreak: 'break-all' }} title={name} />
+							) : (
+								<CardHeader
+									sx={{ wordBreak: 'break-all' }}
+									title={name}
+									component={StyledLink}
+									href={`/artists/${id}`}
+								/>
+							)}
 						</Grid2>
 						{isUnpublished ? (
 							<CardContent>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Delete, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { TrackService } from '../services/track.service';
 import { CreateTrackDto } from '../dto/create-track.dto';
 
@@ -19,5 +19,15 @@ export class TrackController {
       return this.trackService.findAllOfArtist(artist);
     }
     return this.trackService.findAll();
+  }
+
+  @Delete(':id')
+  async deleteOne(@Param('id') id: string) {
+    const artist = await this.trackService.findOne(id);
+    if (!artist) {
+      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    }
+
+    return this.trackService.delete(id);
   }
 }

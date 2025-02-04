@@ -57,7 +57,7 @@ export function TracksPage({ albumId }: Props) {
 				<Grid2 container>
 					<Typography variant='h5'>{currAlbum.title}</Typography>
 				</Grid2>
-				<TracksList tracksArr={tracks} />
+				<TracksList tracksArr={tracks} isUnpublished={false}/>
 			</>
 		);
 	}

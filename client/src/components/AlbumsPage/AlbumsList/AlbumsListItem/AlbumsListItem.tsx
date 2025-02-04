@@ -45,12 +45,17 @@ export function AlbumsListItem({ album, isUnpublished }: Props) {
 					<Grid2 container sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
 						<CardMedia component='img' sx={{ width: 151 }} image={cardImage} />
 						<Grid2 container direction={'column'}>
-							<CardHeader
-								sx={{ wordBreak: 'break-all' }}
-								title={title}
-								component={StyledLink}
-								href={`/albums/${id}`}
-							/>
+							{isUnpublished ? (
+								<CardHeader sx={{ wordBreak: 'break-all' }} title={title} />
+							) : (
+								<CardHeader
+									sx={{ wordBreak: 'break-all' }}
+									title={title}
+									component={StyledLink}
+									href={`/albums/${id}`}
+								/>
+							)}
+
 							<CardContent>
 								<Typography variant='h6'>{releaseYear}</Typography>
 

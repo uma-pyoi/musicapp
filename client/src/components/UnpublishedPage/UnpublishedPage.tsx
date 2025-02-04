@@ -5,15 +5,19 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchArtists } from '@/features/artistsSlice';
 import { fetchAlbums } from '@/features/albumsSlice';
 import { AlbumsList } from '../AlbumsPage/AlbumsList/AlbumsList';
+import { fetchTracks } from '@/features/tracksSlice';
+import { TracksList } from '../TracksPage/TracksList/TracksList';
 
 export function UnpublishedPage() {
 	const dispatch = useAppDispatch();
 	const { artists } = useAppSelector((state) => state.artists);
 	const { albums } = useAppSelector((state) => state.albums);
+	const { tracks } = useAppSelector((state) => state.tracks);
 	useEffect(() => {
 		async function fetchData() {
 			await dispatch(fetchArtists());
 			await dispatch(fetchAlbums());
+			await dispatch(fetchTracks());
 		}
 		fetchData();
 	}, [dispatch]);
@@ -45,6 +49,19 @@ export function UnpublishedPage() {
 				) : (
 					<Typography variant='body2' sx={{ color: 'text.secondary', wordBreak: 'break-all' }}>
 						No Albums were found...
+					</Typography>
+				)}
+			</Grid2>
+
+			<Grid2>
+				<Typography variant='h5'>Albums</Typography>
+			</Grid2>
+			<Grid2>
+				{tracks ? (
+					<TracksList tracksArr={tracks} isUnpublished={true} />
+				) : (
+					<Typography variant='body2' sx={{ color: 'text.secondary', wordBreak: 'break-all' }}>
+						No Tracks were found...
 					</Typography>
 				)}
 			</Grid2>

@@ -1,14 +1,26 @@
 import { createTrackHistory } from '@/features/trackHistorySlice';
 import { ITrack } from '@/interfaces/ITrack';
 import { useAppDispatch } from '@/store/hooks';
-import { Box, Card, CardContent, CardHeader, Grid2, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	Grid2,
+	IconButton,
+	Typography,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { deleteTrack, fetchTracks } from '@/features/tracksSlice';
 
 interface Props {
 	track: ITrack;
+	isUnpublished: boolean;
 }
 
-export function TracksListItem({ track }: Props) {
+export function TracksListItem({ track, isUnpublished }: Props) {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const { title, trackNumber, duration, id } = track;
@@ -19,6 +31,15 @@ export function TracksListItem({ track }: Props) {
 		if (trackHistoryCreation.payload === 'Please log in first. You will be redirected now.') {
 			router.push('/login');
 		}
+	};
+
+	const handlePublish = () => {
+		//
+	};
+
+	const handleDelete = async () => {
+		await dispatch(deleteTrack(id));
+		await dispatch(fetchTracks());
 	};
 
 	return (
@@ -32,7 +53,7 @@ export function TracksListItem({ track }: Props) {
 								title={title}
 								component={Typography}
 								variant='h6'
-								onClick={titleClick}
+								onClick={isUnpublished ? null : titleClick}
 							/>
 							<CardContent>
 								<Typography variant='h6'>{trackNumber}</Typography>
@@ -40,6 +61,15 @@ export function TracksListItem({ track }: Props) {
 								<Typography variant='body2' sx={{ color: 'text.secondary' }}>
 									{duration}
 								</Typography>
+
+								{isUnpublished ? (
+									<>
+										<Button onClick={handlePublish}>Publish</Button>
+										<IconButton onClick={handleDelete}>
+											<DeleteOutlineIcon />
+										</IconButton>
+									</>
+								) : null}
 							</CardContent>
 						</Grid2>
 					</Grid2>

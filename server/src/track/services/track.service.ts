@@ -27,6 +27,16 @@ export class TrackService {
     });
   }
 
+  async findOne(id: string) {
+    return this.tracksRepository.findOne({
+      where: { id },
+    });
+  }
+
+  async delete(id: string) {
+    return this.tracksRepository.delete(id);
+  }
+
   async findAllOfAlbum(id: string) {
     return this.tracksRepository.find({
       where: { albumId: id },
