@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { deleteTrack, fetchTracks } from '@/features/tracksSlice';
+import { deleteTrack, fetchTracks, publishTrack } from '@/features/tracksSlice';
 
 interface Props {
 	track: ITrack;
@@ -34,7 +34,7 @@ export function TracksListItem({ track, isUnpublished }: Props) {
 	};
 
 	const handlePublish = () => {
-		//
+		dispatch(publishTrack(id));
 	};
 
 	const handleDelete = async () => {

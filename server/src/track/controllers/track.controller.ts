@@ -19,16 +19,21 @@ export class TrackController {
   @Get()
   findAll(@Query('album') album?: string, @Query('artist') artist?: string) {
     if (album) {
-      return this.trackService.findAllOfAlbum(album);
+      return this.trackService.findAllOfAlbum(album, false);
     } else if (artist) {
-      return this.trackService.findAllOfArtist(artist);
+      return this.trackService.findAllOfArtist(artist, false);
     }
-    return this.trackService.findAll();
+    return this.trackService.findAll(false);
   }
 
   @Get('/published')
-  findAllPublished() {
-    return this.trackService.findAllPublished();
+  findAllPublished(@Query('album') album?: string, @Query('artist') artist?: string) {
+    if (album) {
+      return this.trackService.findAllOfAlbum(album, true);
+    } else if (artist) {
+      return this.trackService.findAllOfArtist(artist, true);
+    }
+    return this.trackService.findAll(true);
   }
 
   @Delete(':id')

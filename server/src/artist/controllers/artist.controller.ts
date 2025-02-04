@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Param, HttpException, HttpStatus, UseGuards, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Param, HttpException, HttpStatus, Delete } from '@nestjs/common';
 import { ArtistService } from '../services/artist.service';
 import { CreateArtistDto } from '../dto/create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -6,7 +6,7 @@ import { storage } from 'src/storageConfig';
 
 @Controller('artists')
 export class ArtistController {
-  constructor(private readonly artistService: ArtistService) {}
+  constructor(private readonly artistService: ArtistService) { }
 
   @Post()
   @UseInterceptors(FileInterceptor('image', storage))
@@ -21,17 +21,27 @@ export class ArtistController {
 
   @Get()
   findAll() {
-    return this.artistService.findAll();
+    return this.artistService.findAll(false);
   }
 
   @Get('/published')
   findAllPublished() {
-    return this.artistService.findAllPublished();
+    return this.artistService.findAll(true);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const artist = await this.artistService.findOne(id);
+    const artist = await this.artistService.findOne(id, false);
+    if (!artist) {
+      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    }
+
+    return artist;
+  }
+
+  @Get(':id/published')
+  async findOnePublished(@Param('id') id: string) {
+    const artist = await this.artistService.findOne(id, true);
     if (!artist) {
       throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
     }
@@ -41,7 +51,7 @@ export class ArtistController {
 
   @Delete(':id')
   async deleteOne(@Param('id') id: string) {
-    const artist = await this.artistService.findOne(id);
+    const artist = await this.artistService.findOne(id, false);
     if (!artist) {
       throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
     }

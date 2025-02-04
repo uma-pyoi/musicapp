@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchArtists } from '@/features/artistsSlice';
+import { fetchPublishedArtists } from '@/features/artistsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect } from 'react';
 import { ArtistsList } from './ArtistsList/ArtistsList';
@@ -12,7 +12,7 @@ export function ArtistsPage() {
 
 	useEffect(() => {
 		const fetchArtistsFunc = async () => {
-			await dispatch(fetchArtists());
+			await dispatch(fetchPublishedArtists());
 		};
 		if (!artists) {
 			fetchArtistsFunc();

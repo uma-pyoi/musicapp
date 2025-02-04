@@ -19,8 +19,11 @@ export class TrackService {
     return await this.tracksRepository.save(createTrackDto);
   }
 
-  async findAll() {
+  async findAll(published: boolean) {
     return this.tracksRepository.find({
+      where: {
+        published,
+      },
       order: {
         trackNumber: 'ASC',
       },
@@ -37,9 +40,9 @@ export class TrackService {
     return this.tracksRepository.delete(id);
   }
 
-  async findAllOfAlbum(id: string) {
+  async findAllOfAlbum(id: string, published: boolean) {
     return this.tracksRepository.find({
-      where: { albumId: id },
+      where: { albumId: id, published },
       relations: { album: true },
       order: {
         trackNumber: 'ASC',
@@ -47,8 +50,10 @@ export class TrackService {
     });
   }
 
-  async findAllOfArtist(id: string) {
-    const tracksArr = await this.findAll();
+  async findAllOfArtist(id: string, published: boolean) {
+    const tracksArr = await this.tracksRepository.find({
+      where: { published },
+    });
     const tracksOfAristArr = [];
 
     for (const track of tracksArr) {
@@ -62,14 +67,6 @@ export class TrackService {
       }
     }
     return tracksOfAristArr;
-  }
-
-  async findAllPublished() {
-    return this.tracksRepository.find({
-      where: {
-        published: true,
-      },
-    });
   }
 
   async publish(id: string) {

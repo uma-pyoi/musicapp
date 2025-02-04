@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from '@/store/hooks';
-import { deleteAlbum, fetchAlbums } from '@/features/albumsSlice';
+import { deleteAlbum, fetchAlbums, publishAlbum } from '@/features/albumsSlice';
 
 interface Props {
 	album: IAlbum;
@@ -30,7 +30,7 @@ export function AlbumsListItem({ album, isUnpublished }: Props) {
 	}
 
 	const handlePublish = () => {
-		//
+		dispatch(publishAlbum(id));
 	};
 
 	const handleDelete = async () => {

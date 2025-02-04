@@ -16,7 +16,7 @@ const initialState: State = {
 export const fetchTracksOfAlbum = createAsyncThunk(
 	'fetch/tracks_of_album',
 	async (payload: string) => {
-		const { data } = await axiosApiClient.get<ITrack[]>(`/tracks`, {
+		const { data } = await axiosApiClient.get<ITrack[]>(`/tracks/published`, {
 			params: {
 				album: payload,
 			},
@@ -35,8 +35,18 @@ export const fetchTracks = createAsyncThunk('fetch/tracks', async () => {
 	return data;
 });
 
+export const fetchPublishedTracks = createAsyncThunk('fetch_published/tracks', async () => {
+	const { data } = await axiosApiClient.get<ITrack[]>(`/tracks/published`);
+	return data;
+});
+
 export const deleteTrack = createAsyncThunk('delete/track', async (payload: string) => {
 	const { data } = await axiosApiClient.delete(`/tracks/${payload}`);
+	return data;
+});
+
+export const publishTrack = createAsyncThunk('publish/track', async (payload: string) => {
+	const { data } = await axiosApiClient.post(`/tracks/${payload}/publish`);
 	return data;
 });
 
@@ -84,6 +94,19 @@ const tracksSlice = createSlice({
 				state.loading = false;
 			})
 
+			.addCase(fetchPublishedTracks.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchPublishedTracks.fulfilled, (state, action) => {
+				state.tracks = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchPublishedTracks.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
 			.addCase(deleteTrack.pending, (state) => {
 				state.loading = true;
 				state.error = undefined;
@@ -92,6 +115,18 @@ const tracksSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(deleteTrack.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(publishTrack.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(publishTrack.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(publishTrack.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});

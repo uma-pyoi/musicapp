@@ -18,8 +18,13 @@ export const fetchArtists = createAsyncThunk('fetch/artists', async () => {
 	return data;
 });
 
+export const fetchPublishedArtists = createAsyncThunk('fetch_published/artists', async () => {
+	const { data } = await axiosApiClient.get<IArtist[]>(`/artists/published`);
+	return data;
+});
+
 export const fetchArtist = createAsyncThunk('fetch/artist', async (payload: string) => {
-	const { data } = await axiosApiClient.get<IArtist>(`/artists/${payload}`);
+	const { data } = await axiosApiClient.get<IArtist>(`/artists/${payload}/published`);
 	return data;
 });
 
@@ -92,7 +97,34 @@ export const artistsSlice = createSlice({
 			.addCase(deleteArtist.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
+			})
+
+			.addCase(publishArtist.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(publishArtist.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(publishArtist.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(fetchPublishedArtists.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchPublishedArtists.fulfilled, (state, action) => {
+				state.artists = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchPublishedArtists.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
 			});
+
+		///fetchPublishedArtists
 	},
 });
 

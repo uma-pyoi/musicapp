@@ -16,7 +16,7 @@ const initialState: State = {
 export const fetchAlbumsOfArtist = createAsyncThunk(
 	'fetch/albums_of_artist',
 	async (payload: string) => {
-		const { data } = await axiosApiClient.get<IAlbum[]>('/albums', {
+		const { data } = await axiosApiClient.get<IAlbum[]>('/albums/published', {
 			params: {
 				artist: payload,
 			},
@@ -26,12 +26,17 @@ export const fetchAlbumsOfArtist = createAsyncThunk(
 );
 
 export const fetchAlbum = createAsyncThunk('fetch/album', async (payload: string) => {
-	const { data } = await axiosApiClient.get<IAlbum>(`/albums/${payload}`);
+	const { data } = await axiosApiClient.get<IAlbum>(`/albums/${payload}/published`);
 	return data;
 });
 
 export const fetchAlbums = createAsyncThunk('fetch/albums', async () => {
 	const { data } = await axiosApiClient.get<IAlbum[]>(`/albums`);
+	return data;
+});
+
+export const fetchPublishedAlbums = createAsyncThunk('fetch_published/albums', async () => {
+	const { data } = await axiosApiClient.get<IAlbum[]>(`/albums/published`);
 	return data;
 });
 
@@ -42,6 +47,11 @@ export const createAlbum = createAsyncThunk('create/album', async (payload: Form
 
 export const deleteAlbum = createAsyncThunk('delete/album', async (payload: string) => {
 	const { data } = await axiosApiClient.delete(`/albums/${payload}`);
+	return data;
+});
+
+export const publishAlbum = createAsyncThunk('publish/album', async (payload: string) => {
+	const { data } = await axiosApiClient.post(`/albums/${payload}/publish`);
 	return data;
 });
 
@@ -98,6 +108,43 @@ const albumsSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(fetchAlbums.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(fetchPublishedAlbums.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchPublishedAlbums.fulfilled, (state, action) => {
+				state.albums = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchPublishedAlbums.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(deleteAlbum.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(deleteAlbum.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(deleteAlbum.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(publishAlbum.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(publishAlbum.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(publishAlbum.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});

@@ -22,14 +22,17 @@ export class AlbumController {
   @Get()
   findAll(@Query('artist') artist: string) {
     if (artist) {
-      return this.albumService.findAllOfArtistId(artist);
+      return this.albumService.findAllOfArtistId(artist, false);
     }
-    return this.albumService.findAll();
+    return this.albumService.findAll(false);
   }
 
   @Get('/published')
-  findAllPublished() {
-    return this.albumService.findAllPublished();
+  findAllPublished(@Query('artist') artist: string) {
+    if (artist) {
+      return this.albumService.findAllOfArtistId(artist, true);
+    }
+    return this.albumService.findAll(true);
   }
 
   @Get(':id')

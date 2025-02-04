@@ -19,10 +19,13 @@ export class AlbumService {
     return await this.albumsRepository.save({ ...createAlbumDto, image: image?.filename || '' });
   }
 
-  async findAll() {
+  async findAll(published: boolean) {
     const albumsArr = await this.albumsRepository.find({
       order: {
         releaseYear: 'ASC',
+      },
+      where: {
+        published,
       },
     });
 
@@ -38,14 +41,25 @@ export class AlbumService {
     return newAlbumsArr;
   }
 
-  async findAllOfArtistId(id: string) {
-    const albumsArr = await this.albumsRepository.find({
-      where: { artistId: id },
-      relations: { artist: true },
-      order: {
-        releaseYear: 'ASC',
-      },
-    });
+  async findAllOfArtistId(id: string, published: boolean) {
+    let albumsArr;
+    if (!published) {
+      albumsArr = await this.albumsRepository.find({
+        where: { artistId: id },
+        relations: { artist: true },
+        order: {
+          releaseYear: 'ASC',
+        },
+      });
+    } else {
+      albumsArr = await this.albumsRepository.find({
+        where: { artistId: id, published: true },
+        relations: { artist: true },
+        order: {
+          releaseYear: 'ASC',
+        },
+      });
+    }
 
     const newAlbumsArr = [];
 

@@ -9,27 +9,23 @@ export class ArtistService {
   constructor(
     @InjectRepository(Artist)
     private artistsRepository: Repository<Artist>,
-  ) {}
+  ) { }
 
   async create(createArtistDto: CreateArtistDto, image: Express.Multer.File) {
     return await this.artistsRepository.save({ ...createArtistDto, image: image?.filename || '' });
   }
 
-  async findAll() {
-    return this.artistsRepository.find();
-  }
-
-  async findAllPublished() {
+  async findAll(published: boolean) {
     return this.artistsRepository.find({
       where: {
-        published: true,
+        published: published,
       },
     });
   }
 
-  async findOne(id: string): Promise<Artist> {
+  async findOne(id: string, published: boolean): Promise<Artist> {
     return this.artistsRepository.findOne({
-      where: { id },
+      where: { id, published },
     });
   }
 
@@ -38,7 +34,7 @@ export class ArtistService {
   }
 
   async publish(id: string) {
-    const artist = await this.findOne(id);
+    const artist = await this.findOne(id, false);
 
     if (!artist) {
       throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
