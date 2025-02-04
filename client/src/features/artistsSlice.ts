@@ -33,6 +33,11 @@ export const deleteArtist = createAsyncThunk('delete/artist', async (payload: st
 	return data;
 });
 
+export const publishArtist = createAsyncThunk('publish/artist', async (payload: string) => {
+	const { data } = await axiosApiClient.post(`/artists/${payload}/publish`);
+	return data;
+});
+
 export const artistsSlice = createSlice({
 	name: 'artists',
 	initialState,

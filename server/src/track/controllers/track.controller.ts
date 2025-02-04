@@ -11,6 +11,11 @@ export class TrackController {
     return this.trackService.create(createTrackDto);
   }
 
+  @Post(':id/publish')
+  publish(@Param('id') id: string) {
+    return this.trackService.publish(id);
+  }
+
   @Get()
   findAll(@Query('album') album?: string, @Query('artist') artist?: string) {
     if (album) {

@@ -14,6 +14,11 @@ export class AlbumController {
     return this.albumService.create(createAlbumDto, image);
   }
 
+  @Post(':id/publish')
+  publish(@Param('id') id: string) {
+    return this.albumService.publish(id);
+  }
+
   @Get()
   findAll(@Query('artist') artist: string) {
     if (artist) {

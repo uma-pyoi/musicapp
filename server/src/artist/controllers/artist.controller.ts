@@ -14,6 +14,11 @@ export class ArtistController {
     return this.artistService.create(createArtistDto, image);
   }
 
+  @Post(':id/publish')
+  publish(@Param('id') id: string) {
+    return this.artistService.publish(id);
+  }
+
   @Get()
   findAll() {
     return this.artistService.findAll();

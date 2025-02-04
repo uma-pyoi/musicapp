@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Album } from '../entities/album.entity';
@@ -68,5 +68,17 @@ export class AlbumService {
 
   async delete(id: string) {
     return this.albumsRepository.delete(id);
+  }
+
+  async publish(id: string) {
+    const album = await this.findOne(id);
+
+    if (!album) {
+      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    }
+
+    album.published = true;
+
+    return await this.albumsRepository.save(album);
   }
 }

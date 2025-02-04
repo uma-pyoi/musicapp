@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTrackDto } from '../dto/create-track.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Track } from '../entities/track.entity';
@@ -62,5 +62,17 @@ export class TrackService {
       }
     }
     return tracksOfAristArr;
+  }
+
+  async publish(id: string) {
+    const track = await this.findOne(id);
+
+    if (!track) {
+      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    }
+
+    track.published = true;
+
+    return await this.tracksRepository.save(track);
   }
 }

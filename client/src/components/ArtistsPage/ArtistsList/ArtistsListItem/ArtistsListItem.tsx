@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { deleteArtist, fetchArtists } from '@/features/artistsSlice';
+import { deleteArtist, fetchArtists, publishArtist } from '@/features/artistsSlice';
 
 interface Props {
 	artist: IArtist;
@@ -36,7 +36,7 @@ export function ArtistsListItem({ artist, isUnpublished }: Props) {
 	}
 
 	const handlePublish = () => {
-		//
+		dispatch(publishArtist(id));
 	};
 
 	const handleDelete = async () => {
