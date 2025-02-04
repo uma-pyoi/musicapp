@@ -33,8 +33,9 @@ export function TracksListItem({ track, isUnpublished }: Props) {
 		}
 	};
 
-	const handlePublish = () => {
-		dispatch(publishTrack(id));
+	const handlePublish = async () => {
+		await dispatch(publishTrack(id));
+		await dispatch(fetchTracks());
 	};
 
 	const handleDelete = async () => {

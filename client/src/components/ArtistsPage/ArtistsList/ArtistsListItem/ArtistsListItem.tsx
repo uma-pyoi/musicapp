@@ -35,8 +35,9 @@ export function ArtistsListItem({ artist, isUnpublished }: Props) {
 		cardImage = `${process.env.SERVER_URL}/uploads/${image}`;
 	}
 
-	const handlePublish = () => {
-		dispatch(publishArtist(id));
+	const handlePublish = async () => {
+		await dispatch(publishArtist(id));
+		await dispatch(fetchArtists());
 	};
 
 	const handleDelete = async () => {

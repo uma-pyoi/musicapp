@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Album } from '../entities/album.entity';
 import { Repository } from 'typeorm';
 import { Track } from 'src/track/entities/track.entity';
+import { Artist } from 'src/artist/entities/artist.entity';
 
 @Injectable()
 export class AlbumService {
@@ -13,7 +14,10 @@ export class AlbumService {
 
     @InjectRepository(Track)
     private tracksRepository: Repository<Track>,
-  ) {}
+
+    @InjectRepository(Track)
+    private artistsRepository: Repository<Artist>,
+  ) { }
 
   async create(createAlbumDto: CreateAlbumDto, image: Express.Multer.File) {
     return await this.albumsRepository.save({ ...createAlbumDto, image: image?.filename || '' });
@@ -42,30 +46,19 @@ export class AlbumService {
   }
 
   async findAllOfArtistId(id: string, published: boolean) {
-    let albumsArr;
-    if (!published) {
-      albumsArr = await this.albumsRepository.find({
-        where: { artistId: id },
-        relations: { artist: true },
-        order: {
-          releaseYear: 'ASC',
-        },
-      });
-    } else {
-      albumsArr = await this.albumsRepository.find({
-        where: { artistId: id, published: true },
-        relations: { artist: true },
-        order: {
-          releaseYear: 'ASC',
-        },
-      });
-    }
+    const albumsArr = await this.albumsRepository.find({
+      where: { artistId: id, published },
+      relations: { artist: true },
+      order: {
+        releaseYear: 'ASC',
+      },
+    });
 
     const newAlbumsArr = [];
 
     for (const album of albumsArr) {
       const tracksArr = await this.tracksRepository.find({
-        where: { albumId: album.id },
+        where: { albumId: album.id, published },
       });
       newAlbumsArr.push({ ...album, tracksAmount: tracksArr.length });
     }
@@ -88,6 +81,17 @@ export class AlbumService {
     const album = await this.findOne(id);
 
     if (!album) {
+      throw new HttpException('invalid album id', HttpStatus.NOT_FOUND);
+    }
+
+    const artist = await this.artistsRepository.find({
+      where: {
+        id: album.artistId,
+        published: true,
+      },
+    });
+
+    if (!artist) {
       throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
     }
 

@@ -46,7 +46,11 @@ export const publishArtist = createAsyncThunk('publish/artist', async (payload: 
 export const artistsSlice = createSlice({
 	name: 'artists',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetArtists: (state) => {
+			state.artists = undefined;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchArtists.pending, (state) => {
@@ -123,9 +127,8 @@ export const artistsSlice = createSlice({
 				state.error = action.error as Error;
 				state.loading = false;
 			});
-
-		///fetchPublishedArtists
 	},
 });
 
+export const { resetArtists } = artistsSlice.actions;
 export const artistsReducer = artistsSlice.reducer;

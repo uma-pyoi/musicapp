@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchPublishedArtists } from '@/features/artistsSlice';
+import { fetchPublishedArtists, resetArtists } from '@/features/artistsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect } from 'react';
 import { ArtistsList } from './ArtistsList/ArtistsList';
@@ -9,6 +9,10 @@ import { Grid2, Typography } from '@mui/material';
 export function ArtistsPage() {
 	const dispatch = useAppDispatch();
 	const { artists } = useAppSelector((state) => state.artists);
+
+	useEffect(() => {
+		dispatch(resetArtists());
+	}, [dispatch]);
 
 	useEffect(() => {
 		const fetchArtistsFunc = async () => {

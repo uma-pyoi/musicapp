@@ -1,10 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  env: {
-    SERVER_URL: process.env.SERVER_URL,
-  },
+	env: {
+		SERVER_URL: process.env.SERVER_URL,
+	},
 };
 
 export default nextConfig;

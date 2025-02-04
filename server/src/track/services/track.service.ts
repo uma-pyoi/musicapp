@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Track } from '../entities/track.entity';
 import { Repository } from 'typeorm';
 import { Album } from 'src/album/entities/album.entity';
+import { Artist } from 'src/artist/entities/artist.entity';
 
 @Injectable()
 export class TrackService {
@@ -13,6 +14,9 @@ export class TrackService {
 
     @InjectRepository(Album)
     private albumsRepository: Repository<Album>,
+
+    @InjectRepository(Artist)
+    private artistsRepository: Repository<Artist>,
   ) {}
 
   async create(createTrackDto: CreateTrackDto) {
@@ -73,6 +77,28 @@ export class TrackService {
     const track = await this.findOne(id);
 
     if (!track) {
+      throw new HttpException('invalid track id', HttpStatus.NOT_FOUND);
+    }
+
+    const album = await this.albumsRepository.findOne({
+      where: {
+        id: track.albumId,
+        published: true,
+      },
+    });
+
+    if (!album) {
+      throw new HttpException('invalid album id', HttpStatus.NOT_FOUND);
+    }
+
+    const artist = await this.artistsRepository.find({
+      where: {
+        id: album.artistId,
+        published: true,
+      },
+    });
+
+    if (!artist) {
       throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
     }
 
