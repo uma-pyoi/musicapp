@@ -22,14 +22,10 @@ export function UnpublishedPage() {
 			setError(albumsState.error.message);
 		} else if (tracksState.error) {
 			setError(tracksState.error.message);
-		} else {
-			setError(null);
 		}
 	}, [artistsState.error, albumsState.error, tracksState.error]);
 
 	useEffect(() => {
-		setError(null);
-
 		async function fetchData() {
 			await dispatch(fetchArtists());
 			await dispatch(fetchAlbums());

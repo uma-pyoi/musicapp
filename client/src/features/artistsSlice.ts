@@ -1,6 +1,8 @@
 import { axiosApiClient } from '@/helpers/axiosApiClient';
 import { IArtist } from '@/interfaces/IArtist';
+import { IResponseError } from '@/interfaces/IResponseError';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 
 interface State {
 	artists?: IArtist[];
@@ -33,10 +35,24 @@ export const createArtist = createAsyncThunk('create/artist', async (payload: Fo
 	return data;
 });
 
-export const deleteArtist = createAsyncThunk('delete/artist', async (payload: string) => {
-	const { data } = await axiosApiClient.delete(`/artists/${payload}`);
-	return data;
-});
+export const deleteArtist = createAsyncThunk(
+	'delete/artist',
+	async (payload: string, { rejectWithValue }) => {
+		try {
+			const { data } = await axiosApiClient.delete(`/artists/${payload}`);
+			return data;
+		} catch (err) {
+			if (err instanceof AxiosError) {
+				if (err.response?.data) {
+					const errorResponse: IResponseError = err.response.data;
+					return rejectWithValue(errorResponse.message);
+				}
+				return rejectWithValue('An error occured');
+			}
+			throw err;
+		}
+	},
+);
 
 export const publishArtist = createAsyncThunk('publish/artist', async (payload: string) => {
 	const { data } = await axiosApiClient.post(`/artists/${payload}/publish`);

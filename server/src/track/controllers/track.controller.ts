@@ -1,6 +1,10 @@
-import { Controller, Get, Post, Body, Query, Delete, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Delete, Param, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { TrackService } from '../services/track.service';
 import { CreateTrackDto } from '../dto/create-track.dto';
+import { Roles } from 'src/decorators/roles.decorators';
+import { Role } from 'src/role/enums/role.enum';
+import { AuthGuard } from 'src/user/authGuard/auth.guard';
+import { RolesGuard } from 'src/role/roles.guard';
 
 @Controller('tracks')
 export class TrackController {
@@ -37,6 +41,8 @@ export class TrackController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   async deleteOne(@Param('id') id: string) {
     const artist = await this.trackService.findOne(id);
     if (!artist) {

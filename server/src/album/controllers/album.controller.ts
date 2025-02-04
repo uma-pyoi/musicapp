@@ -1,8 +1,12 @@
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, HttpException, HttpStatus, Query, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, HttpException, HttpStatus, Query, Delete, UseGuards } from '@nestjs/common';
 import { AlbumService } from '../services/album.service';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/storageConfig';
+import { Roles } from 'src/decorators/roles.decorators';
+import { Role } from 'src/role/enums/role.enum';
+import { AuthGuard } from 'src/user/authGuard/auth.guard';
+import { RolesGuard } from 'src/role/roles.guard';
 
 @Controller('albums')
 export class AlbumController {
@@ -46,6 +50,8 @@ export class AlbumController {
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   async deleteOne(@Param('id') id: string) {
     const artist = await this.albumService.findOne(id);
     if (!artist) {
