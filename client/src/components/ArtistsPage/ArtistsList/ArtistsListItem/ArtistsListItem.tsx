@@ -1,9 +1,22 @@
 import { IArtist } from '@/interfaces/IArtist';
-import { Box, Card, CardHeader, CardMedia, Grid2, styled } from '@mui/material';
+import { useAppDispatch } from '@/store/hooks';
+import {
+	Box,
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	CardMedia,
+	Grid2,
+	IconButton,
+	styled,
+} from '@mui/material';
 import Link from 'next/link';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 interface Props {
 	artist: IArtist;
+	isUnpublished: boolean;
 }
 
 export const StyledLink = styled(Link)(() => ({
@@ -12,13 +25,20 @@ export const StyledLink = styled(Link)(() => ({
 	['&^hover']: 'inherit',
 }));
 
-export function ArtistsListItem({ artist }: Props) {
+export function ArtistsListItem({ artist, isUnpublished }: Props) {
 	const { name, id, image } = artist;
+	const dispatch = useAppDispatch();
 
 	let cardImage = 'http://localhost:3000/image_not_available.png';
 	if (image) {
 		cardImage = `${process.env.SERVER_URL}/uploads/${image}`;
 	}
+
+	const handlePublish = () => {
+		//
+	};
+
+	const handleDelete = () => {};
 
 	return (
 		<Grid2 component='div' m={2}>
@@ -34,6 +54,14 @@ export function ArtistsListItem({ artist }: Props) {
 								href={`/artists/${id}`}
 							/>
 						</Grid2>
+						{isUnpublished ? (
+							<CardContent>
+								<Button onClick={handlePublish}>Publish</Button>
+								<IconButton>
+									<DeleteOutlineIcon />
+								</IconButton>
+							</CardContent>
+						) : null}
 					</Grid2>
 				</Box>
 			</Card>

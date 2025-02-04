@@ -67,6 +67,9 @@ export function UserMenu() {
 					<MenuItem onClick={() => handleMenuItem('track')}>New Track</MenuItem>
 				</Menu>
 			</Grid2>
+			<Typography component={StyledLink} href='/unpublished'>
+				Unpublished
+			</Typography>
 		</Toolbar>
 	);
 }

@@ -20,7 +20,7 @@ export function ArtistsPage() {
 	}, [dispatch, artists]);
 
 	if (artists) {
-		return <ArtistsList artistsArr={artists} />;
+		return <ArtistsList artistsArr={artists} isUnpublished={false} />;
 	}
 
 	return (
