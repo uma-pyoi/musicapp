@@ -24,4 +24,8 @@ export class ArtistService {
       where: { id },
     });
   }
+
+  async delete(id: string) {
+    return this.artistsRepository.delete(id);
+  }
 }

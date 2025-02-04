@@ -1,5 +1,6 @@
 import { Artist } from 'src/artist/entities/artist.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Track } from 'src/track/entities/track.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Album {
@@ -18,10 +19,14 @@ export class Album {
   @Column()
   artistId: string;
 
-  @ManyToOne(() => Artist)
+  @ManyToOne(() => Artist, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
 
   @Column({ default: false })
   published: boolean;
+
+  @OneToMany(() => Track, (track) => track.album, { cascade: ['remove'] })
+  @JoinColumn({ name: 'albumId' })
+  tracks: Track[];
 }

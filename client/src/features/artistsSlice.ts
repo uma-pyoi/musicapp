@@ -28,7 +28,12 @@ export const createArtist = createAsyncThunk('create/artist', async (payload: Fo
 	return data;
 });
 
-const artistsSlice = createSlice({
+export const deleteArtist = createAsyncThunk('delete/artist', async (payload: string) => {
+	const { data } = await axiosApiClient.delete(`/artists/${payload}`);
+	return data;
+});
+
+export const artistsSlice = createSlice({
 	name: 'artists',
 	initialState,
 	reducers: {},
@@ -68,6 +73,18 @@ const artistsSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(createArtist.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(deleteArtist.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(deleteArtist.fulfilled, (state) => {
+				state.loading = false;
+			})
+			.addCase(deleteArtist.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});

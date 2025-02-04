@@ -364,7 +364,7 @@ trackNumber: 1
 
   trackHistory.trackId = meta.randomTrackId;
   trackHistory.userId = meta.randomUserId;
-  trackHistory.datetime = faker.date.recent().toLocaleString();
+  trackHistory.datetime = faker.date.past().toLocaleString();
 ```
 
 То есть datetime будет временем-датой TrackHistory сгенерированное с помощью faker(string), trackId и userId будут передаваться, они оба типа string и будут браться первые в репозитории (что не значит что у них будет id = 1)

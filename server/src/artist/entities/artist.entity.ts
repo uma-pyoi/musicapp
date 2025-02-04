@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Album } from 'src/album/entities/album.entity';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Artist {
@@ -16,4 +17,8 @@ export class Artist {
 
   @Column({ default: false })
   published: boolean;
+
+  @OneToMany(() => Album, (album) => album.artist, { cascade: ['remove'] })
+  @JoinColumn({ name: 'artistId' })
+  albums: Album[];
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Param, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Param, HttpException, HttpStatus, UseGuards, Delete } from '@nestjs/common';
 import { ArtistService } from '../services/artist.service';
 import { CreateArtistDto } from '../dto/create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -27,5 +27,15 @@ export class ArtistController {
     }
 
     return artist;
+  }
+
+  @Delete(':id')
+  async deleteOne(@Param('id') id: string) {
+    const artist = await this.artistService.findOne(id);
+    if (!artist) {
+      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    }
+
+    return this.artistService.delete(id);
   }
 }

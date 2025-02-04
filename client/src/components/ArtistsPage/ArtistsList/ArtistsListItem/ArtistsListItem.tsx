@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { deleteArtist, fetchArtists } from '@/features/artistsSlice';
 
 interface Props {
 	artist: IArtist;
@@ -38,7 +39,10 @@ export function ArtistsListItem({ artist, isUnpublished }: Props) {
 		//
 	};
 
-	const handleDelete = () => {};
+	const handleDelete = async () => {
+		await dispatch(deleteArtist(id));
+		await dispatch(fetchArtists());
+	};
 
 	return (
 		<Grid2 component='div' m={2}>
@@ -57,7 +61,7 @@ export function ArtistsListItem({ artist, isUnpublished }: Props) {
 						{isUnpublished ? (
 							<CardContent>
 								<Button onClick={handlePublish}>Publish</Button>
-								<IconButton>
+								<IconButton onClick={handleDelete}>
 									<DeleteOutlineIcon />
 								</IconButton>
 							</CardContent>

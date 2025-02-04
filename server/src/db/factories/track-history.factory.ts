@@ -14,7 +14,7 @@ export const TrackHistoryFactory = setSeederFactory(TrackHistory, (__, meta: Tra
 
   trackHistory.userId = meta.randomUserId;
 
-  trackHistory.datetime = faker.date.recent().toLocaleString();
+  trackHistory.datetime = faker.date.past().toLocaleString();
 
   return trackHistory;
 });

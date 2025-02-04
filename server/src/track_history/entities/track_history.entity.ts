@@ -20,7 +20,7 @@ export class TrackHistory {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToOne(() => Track)
+  @ManyToOne(() => Track, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'trackId' })
   track: Track;
 }
