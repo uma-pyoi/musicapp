@@ -80,27 +80,27 @@ export class TrackService {
       throw new HttpException('invalid track id', HttpStatus.NOT_FOUND);
     }
 
-    const album = await this.albumsRepository.findOne({
-      where: {
-        id: track.albumId,
-        published: true,
-      },
-    });
+    // const album = await this.albumsRepository.findOne({
+    //   where: {
+    //     id: track.albumId,
+    //     published: true,
+    //   },
+    // });
 
-    if (!album) {
-      throw new HttpException('invalid album id', HttpStatus.NOT_FOUND);
-    }
+    // if (!album) {
+    //   throw new HttpException('invalid album id', HttpStatus.NOT_FOUND);
+    // }
 
-    const artist = await this.artistsRepository.find({
-      where: {
-        id: album.artistId,
-        published: true,
-      },
-    });
+    // const artist = await this.artistsRepository.findOne({
+    //   where: {
+    //     id: album.artistId,
+    //     published: true,
+    //   },
+    // });
 
-    if (!artist) {
-      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
-    }
+    // if (!artist) {
+    //   throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    // }
 
     track.published = true;
 

@@ -15,7 +15,9 @@ export const axiosApiClient = axios.create({
 axiosApiClient.interceptors.request.use((config) => {
 	try {
 		if (store) {
-			config.headers['Authorization'] = store.getState().user.user?.token;
+			const token = store.getState().user.user?.token;
+			console.log('api client token ', token);
+			config.headers['Authorization'] = token;
 		}
 	} catch {}
 

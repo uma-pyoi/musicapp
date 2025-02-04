@@ -17,7 +17,7 @@ const initialState: State = {
 	sentTrackHistory: false,
 };
 
-interface IGetState {
+export interface IGetState {
 	user: {
 		user?: { token: string };
 	};

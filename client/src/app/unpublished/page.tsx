@@ -8,4 +8,4 @@ function Unpublished() {
 	return <UnpublishedPage />;
 }
 
-export default withAuth(Unpublished, Role.User);
+export default withAuth(Unpublished, Role.Admin);

@@ -54,7 +54,13 @@ export class UserService {
     return;
   }
 
-  getUserByToken(token: string) {
-    return this.usersRepository.findOne({ where: { token } });
+  async getUserByToken(token: string) {
+    console.log('searching for token ', token);
+    const userByToken = await this.usersRepository.findOne({ where: { token } });
+    console.log('userByToken ', userByToken);
+    if (!userByToken) {
+      throw new NotFoundException('Invalid token');
+    }
+    return userByToken;
   }
 }

@@ -3,6 +3,7 @@ import { IArtist } from '@/interfaces/IArtist';
 import { IResponseError } from '@/interfaces/IResponseError';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
+import { IGetState } from './trackHistorySlice';
 
 interface State {
 	artists?: IArtist[];
@@ -37,8 +38,11 @@ export const createArtist = createAsyncThunk('create/artist', async (payload: Fo
 
 export const deleteArtist = createAsyncThunk(
 	'delete/artist',
-	async (payload: string, { rejectWithValue }) => {
+	async (payload: string, { rejectWithValue, getState }) => {
 		try {
+			const state = getState() as IGetState;
+			const user = state.user.user;
+			console.log('deleteArtist user ', user);
 			const { data } = await axiosApiClient.delete(`/artists/${payload}`);
 			return data;
 		} catch (err) {

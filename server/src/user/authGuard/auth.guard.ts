@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
     }
     try {
       const user = await this.userService.getUserByToken(token);
+      console.log('auth guard user = ', user);
       request['user'] = user;
       return true;
     } catch {

@@ -17,7 +17,7 @@ export class AlbumService {
 
     @InjectRepository(Track)
     private artistsRepository: Repository<Artist>,
-  ) { }
+  ) {}
 
   async create(createAlbumDto: CreateAlbumDto, image: Express.Multer.File) {
     return await this.albumsRepository.save({ ...createAlbumDto, image: image?.filename || '' });
@@ -84,16 +84,18 @@ export class AlbumService {
       throw new HttpException('invalid album id', HttpStatus.NOT_FOUND);
     }
 
-    const artist = await this.artistsRepository.find({
-      where: {
-        id: album.artistId,
-        published: true,
-      },
-    });
+    // const artist = await this.artistsRepository.findOne({
+    //   where: {
+    //     id: album.artistId,
+    //     published: true,
+    //   },
+    // });
 
-    if (!artist) {
-      throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
-    }
+    // console.log(artist, ' !!!!!! ARTIST OF THE ALBUM');
+
+    // if (!artist) {
+    //   throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
+    // }
 
     album.published = true;
 

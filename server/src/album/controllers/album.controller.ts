@@ -10,7 +10,7 @@ import { RolesGuard } from 'src/role/roles.guard';
 
 @Controller('albums')
 export class AlbumController {
-  constructor(private readonly albumService: AlbumService) {}
+  constructor(private readonly albumService: AlbumService) { }
 
   @Post()
   @UseInterceptors(FileInterceptor('image', storage))
@@ -53,6 +53,7 @@ export class AlbumController {
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async deleteOne(@Param('id') id: string) {
+    console.log('aritst controller delete ', id);
     const artist = await this.albumService.findOne(id);
     if (!artist) {
       throw new HttpException('invalid artist id', HttpStatus.NOT_FOUND);
