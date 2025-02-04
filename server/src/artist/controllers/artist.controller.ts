@@ -24,6 +24,11 @@ export class ArtistController {
     return this.artistService.findAll();
   }
 
+  @Get('/published')
+  findAllPublished() {
+    return this.artistService.findAllPublished();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const artist = await this.artistService.findOne(id);

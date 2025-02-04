@@ -64,6 +64,14 @@ export class TrackService {
     return tracksOfAristArr;
   }
 
+  async findAllPublished() {
+    return this.tracksRepository.find({
+      where: {
+        published: true,
+      },
+    });
+  }
+
   async publish(id: string) {
     const track = await this.findOne(id);
 

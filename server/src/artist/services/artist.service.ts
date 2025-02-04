@@ -19,6 +19,14 @@ export class ArtistService {
     return this.artistsRepository.find();
   }
 
+  async findAllPublished() {
+    return this.artistsRepository.find({
+      where: {
+        published: true,
+      },
+    });
+  }
+
   async findOne(id: string): Promise<Artist> {
     return this.artistsRepository.findOne({
       where: { id },

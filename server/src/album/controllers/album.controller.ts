@@ -27,6 +27,11 @@ export class AlbumController {
     return this.albumService.findAll();
   }
 
+  @Get('/published')
+  findAllPublished() {
+    return this.albumService.findAllPublished();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const album = await this.albumService.findOne(id);

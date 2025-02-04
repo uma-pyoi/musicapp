@@ -26,6 +26,11 @@ export class TrackController {
     return this.trackService.findAll();
   }
 
+  @Get('/published')
+  findAllPublished() {
+    return this.trackService.findAllPublished();
+  }
+
   @Delete(':id')
   async deleteOne(@Param('id') id: string) {
     const artist = await this.trackService.findOne(id);
