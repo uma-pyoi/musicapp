@@ -65,4 +65,8 @@ export class AlbumService {
       relations: { artist: true },
     });
   }
+
+  async delete(id: string) {
+    return this.albumsRepository.delete(id);
+  }
 }

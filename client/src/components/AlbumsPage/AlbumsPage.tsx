@@ -30,7 +30,7 @@ export function AlbumsPage({ artistId }: Props) {
 				<Grid2 container>
 					<Typography variant='h5'>{currArtist.name}</Typography>
 				</Grid2>
-				<AlbumsList albumsArr={albums} />
+				<AlbumsList albumsArr={albums} isUnpublished={false} />
 			</>
 		);
 	}

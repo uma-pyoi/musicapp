@@ -30,8 +30,18 @@ export const fetchAlbum = createAsyncThunk('fetch/album', async (payload: string
 	return data;
 });
 
+export const fetchAlbums = createAsyncThunk('fetch/albums', async () => {
+	const { data } = await axiosApiClient.get<IAlbum[]>(`/albums`);
+	return data;
+});
+
 export const createAlbum = createAsyncThunk('create/album', async (payload: FormData) => {
 	const { data } = await axiosApiClient.post('/albums', payload);
+	return data;
+});
+
+export const deleteAlbum = createAsyncThunk('delete/album', async (payload: string) => {
+	const { data } = await axiosApiClient.delete(`/albums/${payload}`);
 	return data;
 });
 
@@ -75,6 +85,19 @@ const albumsSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(createAlbum.rejected, (state, action) => {
+				state.error = action.error as Error;
+				state.loading = false;
+			})
+
+			.addCase(fetchAlbums.pending, (state) => {
+				state.loading = true;
+				state.error = undefined;
+			})
+			.addCase(fetchAlbums.fulfilled, (state, action) => {
+				state.albums = action.payload;
+				state.loading = false;
+			})
+			.addCase(fetchAlbums.rejected, (state, action) => {
 				state.error = action.error as Error;
 				state.loading = false;
 			});
