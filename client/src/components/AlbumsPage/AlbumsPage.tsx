@@ -38,7 +38,7 @@ export function AlbumsPage({ artistId }: Props) {
 	return (
 		<Grid2 container justifyContent={'center'}>
 			<Typography variant='body2' sx={{ color: 'text.secondary', wordBreak: 'break-all' }}>
-				No Albums were found...
+				{currArtist?.name} has no albums...
 			</Typography>
 		</Grid2>
 	);

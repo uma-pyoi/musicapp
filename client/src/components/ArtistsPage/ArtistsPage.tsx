@@ -12,18 +12,12 @@ export function ArtistsPage() {
 
 	useEffect(() => {
 		dispatch(resetArtists());
+		dispatch(fetchPublishedArtists());
 	}, [dispatch]);
 
-	useEffect(() => {
-		const fetchArtistsFunc = async () => {
-			await dispatch(fetchPublishedArtists());
-		};
-		if (!artists) {
-			fetchArtistsFunc();
-		}
-	}, [dispatch, artists]);
+	console.log('artists rendered', artists);
 
-	if (artists) {
+	if (artists && artists.length > 0) {
 		return <ArtistsList artistsArr={artists} isUnpublished={false} />;
 	}
 

@@ -1,44 +1,46 @@
-'use client';
+// todo: add roles later
 
-import { Role } from '@/interfaces/IUser';
-import { useAppSelector } from '@/store/hooks';
-import { Alert, CircularProgress } from '@mui/material';
-import { redirect } from 'next/navigation';
-import React, { useEffect } from 'react';
+// 'use client';
 
-export const withAuth = (WrappedComponent: React.ElementType, role: Role) => {
-	return function WithAuth(props: object) {
-		const { user, loading } = useAppSelector((state) => state.user);
+// import { Role } from '@/interfaces/IUser';
+// import { useAppSelector } from '@/store/hooks';
+// import { Alert, CircularProgress } from '@mui/material';
+// import { redirect } from 'next/navigation';
+// import React, { useEffect } from 'react';
 
-		const isAccessed = (): boolean => {
-			if (user?.role === role) {
-				return true;
-			} else if (role === Role.User) {
-				if (user?.role === Role.Admin) {
-					return true;
-				}
-			}
-			return false;
-		};
+// export const withAuth = (WrappedComponent: React.ElementType, role: Role) => {
+// 	return function WithAuth(props: object) {
+// 		const { user, loading } = useAppSelector((state) => state.user);
 
-		useEffect(() => {
-			if (!user && !loading) {
-				redirect('/login');
-			}
-		}, [user, loading]);
+// 		const isAccessed = (): boolean => {
+// 			if (user?.role === role) {
+// 				return true;
+// 			} else if (role === Role.User) {
+// 				if (user?.role === Role.Admin) {
+// 					return true;
+// 				}
+// 			}
+// 			return false;
+// 		};
 
-		if (loading) {
-			<CircularProgress />;
-		}
+// 		useEffect(() => {
+// 			if (!user && !loading) {
+// 				redirect('/login');
+// 			}
+// 		}, [user, loading]);
 
-		return loading ? (
-			<CircularProgress />
-		) : isAccessed() ? (
-			<WrappedComponent {...props} />
-		) : (
-			<>
-				<Alert severity='error'>You dont have enough rights.</Alert>
-			</>
-		);
-	};
-};
+// 		if (loading) {
+// 			<CircularProgress />;
+// 		}
+
+// 		return loading ? (
+// 			<CircularProgress />
+// 		) : isAccessed() ? (
+// 			<WrappedComponent {...props} />
+// 		) : (
+// 			<>
+// 				<Alert severity='error'>You don't have enough rights.</Alert>
+// 			</>
+// 		);
+// 	};
+// };

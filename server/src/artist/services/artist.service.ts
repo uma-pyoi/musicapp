@@ -16,11 +16,13 @@ export class ArtistService {
   }
 
   async findAll(published: boolean) {
-    return this.artistsRepository.find({
+    const artists = await this.artistsRepository.find({
       where: {
         published: published,
       },
     });
+    console.log('artists found: ', artists);
+    return artists;
   }
 
   async findOne(id: string, published: boolean): Promise<Artist> {

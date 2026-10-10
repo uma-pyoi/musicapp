@@ -1,5 +1,7 @@
 # Music app documentation
 
+//todo: translate from russian to english
+
 ## Installation and launching
 
 - Clone the repo with:

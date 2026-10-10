@@ -26,6 +26,7 @@ export function TracksListItem({ track, isUnpublished }: Props) {
 	const { title, trackNumber, duration, id } = track;
 
 	const titleClick = async () => {
+		// when clickin track it gets added to track history apparently
 		const trackHistoryCreation = await dispatch(createTrackHistory({ trackId: `${id}` }));
 
 		if (trackHistoryCreation.payload === 'Please log in first. You will be redirected now.') {

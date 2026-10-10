@@ -3,10 +3,12 @@ export interface IUser {
 	username: string;
 	token?: string;
 	password?: string;
-	role: Role;
+	role: string;
 }
 
-export enum Role {
-	User = 'user',
-	Admin = 'admin',
-}
+// todo:: add roles later
+
+// export enum Role {
+// 	User = 'user',
+// 	Admin = 'admin',
+// }

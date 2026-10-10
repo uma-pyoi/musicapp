@@ -6,8 +6,6 @@ import { Grid2, Typography } from '@mui/material';
 import { fetchTrackHistories } from '@/features/trackHistorySlice';
 import { TrackHistoriesList } from './TrackHitoriesList/TrackHistoriesList';
 import { useRouter } from 'next/navigation';
-import { withAuth } from '@/hoc/withAuth';
-import { Role } from '@/interfaces/IUser';
 
 function TrackHistoriesPage() {
 	const dispatch = useAppDispatch();
@@ -38,10 +36,10 @@ function TrackHistoriesPage() {
 	return (
 		<Grid2 container justifyContent={'center'}>
 			<Typography variant='body2' sx={{ color: 'text.secondary', wordBreak: 'break-all' }}>
-				No Track Histories were found...
+				You haven't listened to any tracks yet..
 			</Typography>
 		</Grid2>
 	);
 }
 
-export default withAuth(TrackHistoriesPage, Role.User);
+export default TrackHistoriesPage;
