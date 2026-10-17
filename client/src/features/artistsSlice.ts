@@ -18,6 +18,7 @@ const initialState: State = {
 
 export const fetchArtists = createAsyncThunk('fetch/artists', async () => {
 	const { data } = await axiosApiClient.get<IArtist[]>('/artists');
+	console.log('i fetched artists = ', data);
 	return data;
 });
 
@@ -42,7 +43,6 @@ export const deleteArtist = createAsyncThunk(
 		try {
 			const state = getState() as IGetState;
 			const user = state.user.user;
-			console.log('deleteArtist user ', user);
 			const { data } = await axiosApiClient.delete(`/artists/${payload}`);
 			return data;
 		} catch (err) {
@@ -85,7 +85,7 @@ export const artistsSlice = createSlice({
 				state.error = action.error as Error;
 				state.loading = false;
 			})
-
+			// cases for fetch of one artist
 			.addCase(fetchArtist.pending, (state) => {
 				state.loading = true;
 				state.error = undefined;

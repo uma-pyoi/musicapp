@@ -7,6 +7,7 @@ interface Props {
 }
 
 export function TrackHistoriesList({ trackHistoriesArr }: Props) {
+	console.log('th list .. trackHistoriesArr = ', trackHistoriesArr);
 	return (
 		<Grid2>
 			{trackHistoriesArr.map((trackHistory) => (

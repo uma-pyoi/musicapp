@@ -15,8 +15,6 @@ export function ArtistsPage() {
 		dispatch(fetchPublishedArtists());
 	}, [dispatch]);
 
-	console.log('artists rendered', artists);
-
 	if (artists && artists.length > 0) {
 		return <ArtistsList artistsArr={artists} isUnpublished={false} />;
 	}

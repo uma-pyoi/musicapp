@@ -23,6 +23,7 @@ function TrackHistoriesPage() {
 	}, [dispatch, router, user?.token]);
 
 	if (trackHistories && trackHistories[0] && loaded) {
+		console.log("th page .. trackHistoriesArr = ", trackHistories);
 		return (
 			<>
 				<Grid2 container>

@@ -9,7 +9,7 @@ export class ArtistService {
   constructor(
     @InjectRepository(Artist)
     private artistsRepository: Repository<Artist>,
-  ) { }
+  ) {}
 
   async create(createArtistDto: CreateArtistDto, image: Express.Multer.File) {
     return await this.artistsRepository.save({ ...createArtistDto, image: image?.filename || '' });
@@ -17,9 +17,7 @@ export class ArtistService {
 
   async findAll(published: boolean) {
     const artists = await this.artistsRepository.find({
-      where: {
-        published: published,
-      },
+      where: published ? { published: true } : {},
     });
     console.log('artists found: ', artists);
     return artists;
