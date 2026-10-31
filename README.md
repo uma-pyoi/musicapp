@@ -1,4 +1,4 @@
-# Music App Documentation
+# Music App API Documentation
 
 ## Installation and Launch
 
