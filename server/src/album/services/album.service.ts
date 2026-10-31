@@ -14,9 +14,6 @@ export class AlbumService {
 
     @InjectRepository(Track)
     private tracksRepository: Repository<Track>,
-
-    @InjectRepository(Artist)
-    private artistsRepository: Repository<Artist>,
   ) {}
 
   async create(createAlbumDto: CreateAlbumDto, image: Express.Multer.File) {

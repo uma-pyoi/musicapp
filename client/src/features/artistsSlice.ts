@@ -4,6 +4,7 @@ import { IResponseError } from '@/interfaces/IResponseError';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { IGetState } from './trackHistorySlice';
+import store from '@/store';
 
 interface State {
 	artists?: IArtist[];
@@ -41,6 +42,8 @@ export const deleteArtist = createAsyncThunk(
 	'delete/artist',
 	async (payload: string, { rejectWithValue, getState }) => {
 		try {
+			// delete this later
+			console.log('artistsSlice: auth token = ', store.getState().user.user?.token);
 			const state = getState() as IGetState;
 			const user = state.user.user;
 			const { data } = await axiosApiClient.delete(`/artists/${payload}`);

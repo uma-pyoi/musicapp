@@ -20,6 +20,7 @@ export class RolesGuard implements CanActivate {
     const user = await this.userService.getUserByToken(token);
 
     console.log('user ', user);
+
     return requiredRoles.some((role) => user.role === role);
   }
 }
